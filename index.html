@@ -18,17 +18,28 @@
     <!-- First screen -->
     <div id="app-intro" class="container-fluid">
         <h1>MoodMash</h1>
-        <h2>Start Feelin'</h2>
+        <h2>Welcome!</h2>
         <div class="form-group">
-            <a class="btn btn-default btn-lg" id="btn-auth" href="/login">Login with your Spotify</a>
+            <button class="btn btn-default btn-lg" id="returning-user">Returning User</button>
+            <button class="btn btn-default btn-lg" id="new-user">New User</button>
         </div>
     </div>
     <!-- Second screen -->
     <div id="app-login" class="container-fluid">
+        <h1>MoodMash</h1>
+        <h2>Get feelsy</h2>
+        <div id="exist-log-in" class="form-group">
+            <label for="userName">Enter Your User Name</label>
+            <input class="form-control" id="user-name-input" type="text">
+            <button class="btn btn-default btn-lg" id="check-user" type="submit">Submit <i id="arrow" class="fa fa-arrow-right" aria-hidden="true"></i>
+            </button>
+        </div>
         <div id="new-log-in" class="form-group">
-            <label for="zipCode">Help us set the mood by adding your zip code</label>
+            <label for="userName">Create a User Name</label>
+            <input class="form-control" id="user-name-input2" type="text">
+            <label for="zipCode">Enter Your Zipcode</label>
             <input class="form-control" id="zipCode" type="text">
-            <button class="btn btn-default btn-lg" id="add-zip" type="submit">Submit <i id="arrow2" class="fa fa-arrow-right" aria-hidden="true"></i>
+            <button class="btn btn-default btn-lg" id="add-new-user" type="submit">Submit <i id="arrow2" class="fa fa-arrow-right" aria-hidden="true"></i>
             </button>
         </div>
     </div>
