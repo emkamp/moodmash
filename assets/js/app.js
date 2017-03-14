@@ -1,10 +1,11 @@
 // Global variables
   //=====================================================
-  var topics = ["happy", "sad", "chilled out", "angry", "excited"];
+  var topics = ["worked up", "puzzled", "exhausted", "determined", "political", "possessed", "touchy", "furstrated", "blissful", "dreamy", ];
   var widgetWidth = 300;
   var widgetHeight = 380;
   var widgetUrl = "https://embed.spotify.com/?uri=spotify:user:";
   var artists = []; //NOTE--this creates an empty array that populates with each mood click.  I'm not sure what our
+
   //end plan is for selection/displaying the actual B.I.T. info so creating this as one option
 
   // Functions
@@ -305,6 +306,7 @@ function grabPlaylist(e) {
      for (i=0; i<response.items.length; i++) {
      console.log('Artist: ' + response.items[i].track.artists[0].name);
      console.log('Song: ' + response.items[i].track.name);
+
    }
   });
 }
@@ -326,7 +328,6 @@ var access_token = token.access_token;
 console.log(token);
 
 //firebased god
-// Initialize Firebase
   var config = {
     apiKey: "AIzaSyCJWSKJq1r2_Fyu9hk8NdNFXWV1PAmgLXU",
     authDomain: "mood-mash-userbase.firebaseapp.com",
@@ -336,3 +337,8 @@ console.log(token);
   };
 
 $('#playlistItems').on('click', '.playlistDiv', grabPlaylist);
+/*
+$('.btn.emotion').on('click', function(){
+  var emo = $(this).attr('data-name');
+});
+*/
