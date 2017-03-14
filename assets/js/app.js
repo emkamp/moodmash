@@ -2,7 +2,8 @@
 
 // Global variables
   //=====================================================
-  var topics = ["worked up", "puzzled", "exhausted", "determined", "political", "possessed", "touchy", "furstrated", "blissful", "dreamy", ];
+
+  var topics = ["worked up", "puzzled", "exhausted", "determined", "political", "possessed", "touchy", "furstrated", "blissful", "dreamy"];
   var widgetWidth = 300;
   var widgetHeight = 380;
   //JN: Shortening this widgetURL b/c the spotify object returns the string needed (there was some unneccessary string manipulation happening)
@@ -27,7 +28,7 @@
           a.text(topics[i]);
           $("#item-buttons").append(a);
       }
-  }; //end of renderButtons function
+  } //end of renderButtons function
 
   // Function to add new topic button
   /*
@@ -134,43 +135,47 @@
   //     }); // end of done function response
   // }); // end of topicItem on click function
 
+
+  // Functions
+  //===============================================
+
+
   // See note in global variables section regarding array.  Not sure what our design plan is for displaying the event info.
   // For now, to get our "proof of concept", I am just using an onclick event below for each artist name to pull from B.I.T.
   //JN: Migrating the concept of this function done into a separate function
-  $("#playlist-items").on("click", ".artist-name", function() {
-          var artistName = $(this).attr("data-name");
-          $("#artist-events").empty();
-          console.log(artistName)
+  // $("#playlist-items").on("click", ".artist-name", function() {
+  //         var artistName = $(this).attr("data-name");
+  //         $("#artist-events").empty();
+  //         console.log(artistName)
+  //
+  //         var queryUrl = "https://rest.bandsintown.com/artists/" + artistName + "/events?app_id=MoodMash"; // to add date range format is "&date=2017-03-01,2017-12-31";
+  //         $.ajax({
+  //                 url: queryUrl,
+  //                 method: "GET"
+  //             }).done(function(response) {
+  //                 eventListings = response;
+  //                 console.log(eventListings);
+  //
+  //                 for (var i = 0; i < eventListings.length; i++) {
+  //                     var convertedDate = moment(eventListings[i].datetime).format("MM/DD/YY" + ", " + "hh:mm");
+  //                     eventDiv = $("<div>");
+  //                     eventDiv.addClass("well well-sm");
+  //                     pDate = $("<p>");
+  //                     pVenue = $("<p>");
+  //                     pCity = $("<p>");
+  //                     pCoordinates = $("<p>");
+  //                     pDate.text(convertedDate);
+  //                     pVenue.text(eventListings[i].venue.name);
+  //                     pCity.text(eventListings[i].venue.city + ", " + eventListings[i].venue.region);
+  //                     pCoordinates.text(eventListings[i].venue.latitude + " ,  " + eventListings[i].venue.longitude);
+  //                     eventDiv.append(pDate, pVenue, pCity, pCoordinates);
+  //                     $("#artist-events").append(eventDiv);
+  //                 } // end of for loop
+  //             }) // end of done function
+  //     }) // end of onclick for getArtistEvents
 
-          var queryUrl = "https://rest.bandsintown.com/artists/" + artistName + "/events?app_id=MoodMash"; // to add date range format is "&date=2017-03-01,2017-12-31";
-          $.ajax({
-                  url: queryUrl,
-                  method: "GET"
-              }).done(function(response) {
-                  eventListings = response;
-                  console.log(eventListings);
 
-                  for (var i = 0; i < eventListings.length; i++) {
-                      var convertedDate = moment(eventListings[i].datetime).format("MM/DD/YY" + ", " + "hh:mm");
-                      eventDiv = $("<div>");
-                      eventDiv.addClass("well well-sm");
-                      pDate = $("<p>");
-                      pVenue = $("<p>");
-                      pCity = $("<p>");
-                      pCoordinates = $("<p>");
-                      pDate.text(convertedDate);
-                      pVenue.text(eventListings[i].venue.name);
-                      pCity.text(eventListings[i].venue.city + ", " + eventListings[i].venue.region);
-                      pCoordinates.text(eventListings[i].venue.latitude + " ,  " + eventListings[i].venue.longitude);
-                      eventDiv.append(pDate, pVenue, pCity, pCoordinates);
-                      $("#artist-events").append(eventDiv);
-                  } // end of for loop
-              }) // end of done function
-      }) // end of onclick for getArtistEvents
 
-  // Main process to render initial buttons
-  //===============================================
-  renderButtons();
 
   // Kwaku's stuff
   //=================================================
@@ -207,6 +212,7 @@
   //JN: UPDATED THIS CODE ... backgroundColor was erroring
   //JN: removing this code ... use gradient bg instead
   //background colors
+
   // $(window).scroll(function() {
   //     var previousScroll = 0;
   //     var currentScroll = $(this).scrollTop();
@@ -256,17 +262,19 @@
 */
 
   //NEW USERS
-  $("#add-new-user").on("click", function(event) {
-      event.preventDefault();
-      var userId = $("#user-name-input2").val().trim();
-      var userZip = $("#zip-code").val().trim();
-      database.ref().set({
-          userInfo: userId,
-          userZip
-      });
-      //trigger function to change html to show mood icons and home page.
-      //end of firebase on value
-  });
+  // JN: We are removing this functionality
+  // $("#add-new-user").on("click", function(event) {
+  //     event.preventDefault();
+  //     var userId = $("#user-name-input2").val().trim();
+  //     var userZip = $("#zip-code").val().trim();
+  //     database.ref().set({
+  //         userInfo: userId,
+  //         userZip
+  //     });
+  //     //trigger function to change html to show mood icons and home page.
+  //     //end of firebase on value
+  // });
+
 
 
 
@@ -386,13 +394,7 @@
             }, 1000);
         };
 
-
-
-        $("html,body").delay(500).animate({ scrollTop: $("#page2").offset().top }, 1400);
-        $("#moodDiv").empty();
-        $("#moodDiv").append(this.getAttribute("data-emo"));
-
-        switch (this.getAttribute("data-emo")) {
+          switch (this.getAttribute("data-emo")) {
 
 
             case "Puzzled":
@@ -552,11 +554,117 @@
                 break;
 
 
+        }//end of switch statements in click events
 
 
-        };
+$("html,body").delay(500).animate({ scrollTop: $("#page2").offset().top }, 1400);
+        $("#moodDiv").empty();
+        $("#moodDiv").append(this.getAttribute("data-emo"));
 
-    });
+
+
+
+
+
+
+      $("#playlist-items").empty();
+      // artists = [];
+      topic = this.getAttribute("data-emo");
+      var listArr = []
+          // leaving this as playlist instead of artist because jason got the spotify authorization
+      var queryUrl = "https://api.spotify.com/v1/search?q=" + topic + "&type=playlist";
+
+      $.ajax({
+          url: queryUrl,
+          //headers: { "Authorization": "Bearer " + "BQBVgnFxqm_8fUIR3uRjY5KZTL85HDbuM34jCM8_Sr7W51L8DphLMCNP76c4h_z294Tez3Iz6OerYYbxigMOBDRcOhS5arxkXjxm7j8xEtKrEiMFjHQMPL7GmvBP__JwLyoIuouUD6_0o66TvAb1Upkt7tV4HCwL-C9k"},
+          method: "GET"
+      }).done(function(response) {
+
+          results = response.playlists.items;
+          console.log(results);
+
+          //KWAKU NOTE: does the following work?
+          /*
+          for (var i = 0; i < results.length; i++) {
+              playlistDiv = $("<div>")
+              pName = $("<p>");
+              pName.text("Playlist Name: " + results[i].name);
+              pHref = $("<p>");
+              pHref.text("External Href from Object: " + results[i].external_urls.spotify)
+              playlistDiv.append(pName);
+              playlistDiv.append(pHref);
+              playlistDiv.addClass("playlistDiv");
+              $("#playlist-items").append(playlistDiv);
+          } // end of for loop
+          */
+
+          var listMin = 0;
+          var listMax = results.length;
+
+          function pickList(min, max) {
+              var i = parseInt(Math.random() * (max - min) + min);
+              var currentListName = results[i].name;
+              var currentListID = results[i].id;
+              var currentListUser = results[i].uri;
+              var currentListUserId = currentListUser.match("user:(.*):playlist");
+              console.log("PLAYLIST INFO  //  random list: " + i + ", name: " + currentListName + ", id: " + currentListID);
+              console.log("PLAYLIST OWNER INFO  //  currentListUser: " + currentListUser + ", currentListUserId: " + currentListUserId[1]);
+
+              $("#playlist-items").append(currentListName);
+
+              // build this: <iframe src="" width="300" height="380" frameborder="0" allowtransparency="true"></iframe>
+              var widget = $("<iframe>");
+              widget.attr({
+                  "width": widgetWidth, // see global variables
+                  "height": widgetHeight, // see global variables
+                  "frameborder": 0,
+                  "allowtransparency": "true",
+                  "src": widgetUrl + currentListUserId[1] + ":playlist:" + currentListID // build url
+              });
+              console.log(widget);
+              $("#widgetContainer").html(widget);
+          }
+
+          pickList(listMin, listMax); // select a playlist at random from the search results
+
+          // modify this to get artist info from playlist instead of track
+          // clicking an item will send artist to BIT and return show data
+          // later, we will remove the click function and have this happen automatically when a new track starts.
+          /*
+          for (var i = 0; i < results.length; i++) {
+              playlistDiv = $("<div>")
+              playlistDiv.addClass("well well-sm")
+              pName = $("<p>");
+              pName.text("Track Name: " + results[i].name);
+              //pushing artists to the artist array, but building in index test to prevent duplicates
+              if (artists.indexOf(results[i].artists[0].name) === -1) {
+                  artists.push(results[i].artists[0].name)
+              };
+              pArtist = $("<p>");
+              pArtist.text(results[i].artists[0].name);
+              pArtist.addClass("artist-name");
+              pArtist.attr("data-name", results[i].artists[0].name)
+              playlistDiv.append(pName);
+              playlistDiv.append(pArtist);
+              playlistDiv.addClass("playlistDiv");
+              $("#playlist-items").append(playlistDiv);
+          } // end of for loop
+          */
+
+      // end of done function response
+});
+
+
+ });
+
+
+
+
+
+
+
+
+
 
 
 
@@ -567,9 +675,9 @@
 
         $("html,body").animate({ scrollTop: $("#welcome").offset().top }, 500);
         $("#moodDiv").hide();
+          console.log("working?!");
 
-
-
+//document.ready END
     });
 
 
@@ -586,6 +694,8 @@ function cityLaunch(e) {
   $('#app-login').hide()
   //show the selection screen
   $('#app-main').show();
+  //can set this up anywhere
+  renderButtons();
 }
 
 function genPlaylists(e) {
@@ -776,18 +886,18 @@ function tokenCheck() {
     e.preventDefault();
 
     //check to see if exists and set the clickCounter
-    database.ref().on('value',function(snap){
-      if (snap.child('moodItem').exists()) {
-        clickCount = snap.child('clickNum').val();
-        console.log(clickCounter);
-      }
-      else {
-        console.log('nope');
-      }
-    });
-
-    var mood = $(this).attr('data-name');
-    console.log(moodData);
+    // database.ref().on('value',function(snap){
+    //   if (snap.child('moodItem').exists()) {
+    //     clickCount = snap.child('clickNum').val();
+    //     console.log(clickCounter);
+    //   }
+    //   else {
+    //     console.log('nope');
+    //   }
+    // });
+    //
+    // var mood = $(this).attr('data-name');
+    // console.log(moodData);
     //check to see if the mood exists when value changes
     // database.on('value',function(snapshot) {
     //   //setting a moodExists varialble
@@ -799,10 +909,10 @@ function tokenCheck() {
     //   }
     //   else {
     //     console.log('adding now');
-        database.ref().push({
-          moodItem: mood,
-          clickNum: clickCounter
-        });
+        // database.ref().push({
+        //   moodItem: mood,
+        //   clickNum: clickCounter
+        // });
     //   }
     // });
     // var moodExists =
@@ -826,7 +936,6 @@ function tokenCheck() {
     //   });
     // }
 }
-
 
 
   // On Click of Button
