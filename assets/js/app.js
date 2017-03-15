@@ -1,320 +1,56 @@
-//REMOVING THE DOCUMENT READY ... was messing up the global variable sturcture shouldn't need that app.js is at bottom of page
-
 // Global variables
-  //=====================================================
+//=====================================================
 
-  var topics = ["worked up", "puzzled", "exhausted", "determined", "political", "possessed", "touchy", "furstrated", "blissful", "dreamy"];
-  var widgetWidth = 300;
-  var widgetHeight = 380;
-  //JN: Shortening this widgetURL b/c the spotify object returns the string needed (there was some unneccessary string manipulation happening)
-  //This change is for launchPlayer function returning the URI in data-attr
-  var widgetUrl = "https://embed.spotify.com/?uri=";
-  var artists = []; //NOTE--this creates an empty array that populates with each mood click.  I'm not sure what our
-  var thinArr = [] //global placeholder for thinned out array of artists
-  var inTownEvents = [];
-  //end plan is for selection/displaying the actual B.I.T. info so creating this as one option
+var widgetWidth = 710;
+var widgetHeight = 385;
+//JN: Shortening this widgetURL b/c the spotify object returns the string needed (there was some unneccessary string manipulation happening)
+//This change is for launchPlayer function returning the URI in data-attr
+var widgetUrl = "https://embed.spotify.com/?uri=";
+var artists = []; //NOTE--this creates an empty array that populates with each mood click.  I'm not sure what our
+var thinArr = [] //global placeholder for thinned out array of artists
+var inTownEvents = [];
+//end plan is for selection/displaying the actual B.I.T. info so creating this as one option
 
-  // Functions
-  //===============================================
+// Functions
+//===============================================
+$(document).ready(function() {
 
-  // Function for displaying topic buttons
-  function renderButtons() {
-      $("#item-buttons").empty();
-      //loop for adding buttons modeled after in class example on movie topics
-      for (var i = 0; i < topics.length; i++) {
-          var a = $("<button>");
-          a.addClass("topic-item");
-          a.attr("data-name", topics[i]);
-          a.text(topics[i]);
-          $("#item-buttons").append(a);
-      }
-  } //end of renderButtons function
+  $("#other-playlists").hide();
+    // See note in global variables section regarding array.  Not sure what our design plan is for displaying the event info.
+    // For now, to get our "proof of concept", I am just using an onclick event below for each artist name to pull from B.I.T.
+    //JN: Migrating the concept of this function done into a separate function
+    $("#playlist-items").on("click", ".artist-name", function() {
+            var artistName = $(this).attr("data-name");
+            $("#artist-events").empty();
+            console.log(artistName)
 
-  // Function to add new topic button
-  /*
-  $("#add-item").on("click", function(event) {
-      event.preventDefault();
-      var newTopic = $("#search-input").val().trim();
-      $("#search-input").val("");
-      // if statement to prevent duplicate items from being added
-      if (topics.indexOf(newTopic) === -1) {
-          topics.push(newTopic);
-          renderButtons();
-      } else {
-          return
-      }
-  });
-  */
+            var queryUrl = "https://rest.bandsintown.com/artists/" + artistName + "/events?app_id=MoodMash"; // to add date range format is "&date=2017-03-01,2017-12-31";
+            $.ajax({
+                    url: queryUrl,
+                    method: "GET"
+                }).done(function(response) {
+                    eventListings = response;
+                    console.log(eventListings);
 
-  // onclick function to get still gifs
-  // *****JN: Redoing this event below genPlaylists*****
-  // $("#item-buttons").on("click", ".topic-item", function() {
-  //     $("#playlist-items").empty();
-  //     artists = [];
-  //     topic = $(this).attr("data-name");
-  //     var listArr = []
-  //         // leaving this as playlist instead of artist because jason got the spotify authorization
-  //     var queryUrl = "https://api.spotify.com/v1/search?q=" + topic + "&type=playlist";
-  //
-  //     $.ajax({
-  //         url: queryUrl,
-  //         //headers: { "Authorization": "Bearer " + "BQBVgnFxqm_8fUIR3uRjY5KZTL85HDbuM34jCM8_Sr7W51L8DphLMCNP76c4h_z294Tez3Iz6OerYYbxigMOBDRcOhS5arxkXjxm7j8xEtKrEiMFjHQMPL7GmvBP__JwLyoIuouUD6_0o66TvAb1Upkt7tV4HCwL-C9k"},
-  //         method: "GET"
-  //     }).done(function(response) {
-  //
-  //         results = response.playlists.items;
-  //         console.log(results);
-  //
-  //         /*
-  //         for (var i = 0; i < results.length; i++) {
-  //             playlistDiv = $("<div>")
-  //             pName = $("<p>");
-  //             pName.text("Playlist Name: " + results[i].name);
-  //             pHref = $("<p>");
-  //             pHref.text("External Href from Object: " + results[i].external_urls.spotify)
-  //             playlistDiv.append(pName);
-  //             playlistDiv.append(pHref);
-  //             playlistDiv.addClass("playlistDiv");
-  //             $("#playlist-items").append(playlistDiv);
-  //         } // end of for loop
-  //         */
-  //
-  //         var listMin = 0;
-  //         var listMax = results.length;
-  //
-  //         function pickList(min, max) {
-  //             var i = parseInt(Math.random() * (max - min) + min);
-  //             var currentListName = results[i].name;
-  //             var currentListID = results[i].id;
-  //             var currentListUser = results[i].uri;
-  //             var currentListUserId = currentListUser.match("user:(.*):playlist");
-  //             console.log("PLAYLIST INFO  //  random list: " + i + ", name: " + currentListName + ", id: " + currentListID);
-  //             console.log("PLAYLIST OWNER INFO  //  currentListUser: " + currentListUser + ", currentListUserId: " + currentListUserId[1]);
-  //
-  //             $("#playlist-items").append(currentListName);
-  //
-  //             // build this: <iframe src="" width="300" height="380" frameborder="0" allowtransparency="true"></iframe>
-  //             var widget = $("<iframe>");
-  //             widget.attr({
-  //                 "width": widgetWidth, // see global variables
-  //                 "height": widgetHeight, // see global variables
-  //                 "frameborder": 0,
-  //                 "allowtransparency": "true",
-  //                 "src": widgetUrl + currentListUserId[1] + ":playlist:" + currentListID // build url
-  //             });
-  //             console.log(widget);
-  //             $("#widget-container").html(widget);
-  //         }
-  //
-  //         pickList(listMin, listMax); // select a playlist at random from the search results
-  //
-  //         // modify this to get artist info from playlist instead of track
-  //         // clicking an item will send artist to BIT and return show data
-  //         // later, we will remove the click function and have this happen automatically when a new track starts.
-  //         /*
-  //         for (var i = 0; i < results.length; i++) {
-  //             playlistDiv = $("<div>")
-  //             playlistDiv.addClass("well well-sm")
-  //             pName = $("<p>");
-  //             pName.text("Track Name: " + results[i].name);
-  //             //pushing artists to the artist array, but building in index test to prevent duplicates
-  //             if (artists.indexOf(results[i].artists[0].name) === -1) {
-  //                 artists.push(results[i].artists[0].name)
-  //             };
-  //             pArtist = $("<p>");
-  //             pArtist.text(results[i].artists[0].name);
-  //             pArtist.addClass("artist-name");
-  //             pArtist.attr("data-name", results[i].artists[0].name)
-  //             playlistDiv.append(pName);
-  //             playlistDiv.append(pArtist);
-  //             playlistDiv.addClass("playlistDiv");
-  //             $("#playlist-items").append(playlistDiv);
-  //         } // end of for loop
-  //         */
-  //
-  //     }); // end of done function response
-  // }); // end of topicItem on click function
+                    for (var i = 0; i < eventListings.length; i++) {
+                        var convertedDate = moment(eventListings[i].datetime).format("MM/DD/YY" + ", " + "hh:mm");
+                        eventDiv = $("<div>");
+                        eventDiv.addClass("well well-sm");
+                        pDate = $("<p>");
+                        pVenue = $("<p>");
+                        pCity = $("<p>");
+                        pCoordinates = $("<p>");
+                        pDate.text(convertedDate);
+                        pVenue.text(eventListings[i].venue.name);
+                        pCity.text(eventListings[i].venue.city + ", " + eventListings[i].venue.region);
+                        pCoordinates.text(eventListings[i].venue.latitude + " ,  " + eventListings[i].venue.longitude);
+                        eventDiv.append(pDate, pVenue, pCity, pCoordinates);
+                        $("#artist-events").append(eventDiv);
+                    } // end of for loop
+                }) // end of done function
+        }) // end of onclick for getArtistEvents
 
 
-  // Functions
-  //===============================================
-
-
-  // See note in global variables section regarding array.  Not sure what our design plan is for displaying the event info.
-  // For now, to get our "proof of concept", I am just using an onclick event below for each artist name to pull from B.I.T.
-  //JN: Migrating the concept of this function done into a separate function
-  // $("#playlist-items").on("click", ".artist-name", function() {
-  //         var artistName = $(this).attr("data-name");
-  //         $("#artist-events").empty();
-  //         console.log(artistName)
-  //
-  //         var queryUrl = "https://rest.bandsintown.com/artists/" + artistName + "/events?app_id=MoodMash"; // to add date range format is "&date=2017-03-01,2017-12-31";
-  //         $.ajax({
-  //                 url: queryUrl,
-  //                 method: "GET"
-  //             }).done(function(response) {
-  //                 eventListings = response;
-  //                 console.log(eventListings);
-  //
-  //                 for (var i = 0; i < eventListings.length; i++) {
-  //                     var convertedDate = moment(eventListings[i].datetime).format("MM/DD/YY" + ", " + "hh:mm");
-  //                     eventDiv = $("<div>");
-  //                     eventDiv.addClass("well well-sm");
-  //                     pDate = $("<p>");
-  //                     pVenue = $("<p>");
-  //                     pCity = $("<p>");
-  //                     pCoordinates = $("<p>");
-  //                     pDate.text(convertedDate);
-  //                     pVenue.text(eventListings[i].venue.name);
-  //                     pCity.text(eventListings[i].venue.city + ", " + eventListings[i].venue.region);
-  //                     pCoordinates.text(eventListings[i].venue.latitude + " ,  " + eventListings[i].venue.longitude);
-  //                     eventDiv.append(pDate, pVenue, pCity, pCoordinates);
-  //                     $("#artist-events").append(eventDiv);
-  //                 } // end of for loop
-  //             }) // end of done function
-  //     }) // end of onclick for getArtistEvents
-
-
-
-
-  // Kwaku's stuff
-  //=================================================
-  //JN: Removing this because using two page setup: node is logging in user when they hit index.html
-  //$("#app-login").hide();
-  // $("#app-main").hide();
-  //
-  // $("#returning-user").on("click", function() {
-  //     $("#app-intro").hide();
-  //     $("#app-login").show();
-  //     $("#new-log-in").hide();
-  // });
-  //
-  // $("#new-user").on("click", function() {
-  //     $("#app-intro").hide();
-  //     $("#app-login").show();
-  //     $("#exist-log-in").hide();
-  // });
-  //
-  //
-  // $("#check-user").on("click", function() {
-  //     $("#app-login").hide();
-  //     $("#app-main").show();
-  //     console.log("working");
-  // });
-  //
-  //
-  // $("#add-new-user").on("click", function() {
-  //     $("#app-login").hide();
-  //     $("#app-main").show();
-  //     console.log("working");
-  // });
-
-  //JN: UPDATED THIS CODE ... backgroundColor was erroring
-  //JN: removing this code ... use gradient bg instead
-  //background colors
-
-  // $(window).scroll(function() {
-  //     var previousScroll = 0;
-  //     var currentScroll = $(this).scrollTop();
-  //     if (currentScroll > previousScroll) {
-  //         $("body").css('background-color', 'PapayaWhip');
-  //     } else {
-  //         $("body").css('background-color', 'LightYellow');
-  //     }
-  //     previousScroll = currentScroll;
-  // });
-
-  // Initialize Firebase
-  // temporarily disabled for bad key
-  /*
-  var config = {
-      apiKey: "",
-      authDomain: "",
-      databaseURL: "",
-      storageBucket: ""
-  };
-  firebase.initializeApp(config);
-  // Create a variable to reference the database
-  var database = firebase.database();
-  // Initial Values
-  // var user = "";
-  database.ref().on("value", function(snapshot) {
-      //RETURNING USERS
-      $("#check-user").on("click", function(event) {
-          event.preventDefault();
-          var userId = $("#user-name-input").val().trim();
-          //do we need to store to check if exists? and delete the repeat If so?
-          //In that case:
-          // database.ref().set({
-          //      user-id: user-id,
-          //    });
-          if (snapshot.child("user-id").exists()) {
-              //delete recent addition
-              //show span of "welcome Back"
-              //trigger function to change html to show mood icons and home page.
-              //load user information with stored zipcode
-          } else {
-              //delete recent addition
-              //show span above input "We did not recognize this name"
-          }
-      });
-  });
-*/
-
-  //NEW USERS
-  // JN: We are removing this functionality
-  // $("#add-new-user").on("click", function(event) {
-  //     event.preventDefault();
-  //     var userId = $("#user-name-input2").val().trim();
-  //     var userZip = $("#zip-code").val().trim();
-  //     database.ref().set({
-  //         userInfo: userId,
-  //         userZip
-  //     });
-  //     //trigger function to change html to show mood icons and home page.
-  //     //end of firebase on value
-  // });
-
-
-
-
-
-//KEEP THIS CODE to MERGE
-/*         $.ajax({
-          url: queryUrl,
-          // headers: { "Authorization": "Bearer " + "BQBVgnFxqm_8fUIR3uRjY5KZTL85HDbuM34jCM8_Sr7W51L8DphLMCNP76c4h_z294Tez3Iz6OerYYbxigMOBDRcOhS5arxkXjxm7j8xEtKrEiMFjHQMPL7GmvBP__JwLyoIuouUD6_0o66TvAb1Upkt7tV4HCwL-C9k"},
-          method: "GET"
-          }).done(function(response) {
-
-           results=response.playlists.items;
-
-           console.log(results);
-
-            for (var i=0; i<results.length; i++) {
-              playlistDiv=$("<div>");
-              $(playlistDiv).attr('data-href',results[i].tracks.href);
-              pName=$("<p>");
-              pName.text("Playlist Name: " + results[i].name);
-              pHref=$("<p>");
-              pHref.text("External Href from Object: " + results[i].external_urls)
-
-              playlistDiv.append(pName);
-              playlistDiv.append(pHref);
-
-              playlistDiv.addClass("playlistDiv");
-              $("#playlistItems").append(playlistDiv);
-            } // end of for loop
-          });  // end of done function response
-    }); // end of topicItem on click function
-
-    //GET https://api.spotify.com/v1/users/{user_id}/playlists/{playlist_id}/tracks
-    */
-
-
-
-
-
-//MAIN PAGE TWO
 
 
     $("#moodDiv").hide();
@@ -394,7 +130,93 @@
             }, 1000);
         };
 
-          switch (this.getAttribute("data-emo")) {
+
+        $("#playlist-items").empty();
+        artists = [];
+        topic = $(this).attr("data-name");
+        var listArr = []
+            // leaving this as playlist instead of artist because jason got the spotify authorization
+        var queryUrl = "https://api.spotify.com/v1/search?q=" + topic + "&type=playlist";
+
+        $.ajax({
+            url: queryUrl,
+            //headers: { "Authorization": "Bearer " + "BQBVgnFxqm_8fUIR3uRjY5KZTL85HDbuM34jCM8_Sr7W51L8DphLMCNP76c4h_z294Tez3Iz6OerYYbxigMOBDRcOhS5arxkXjxm7j8xEtKrEiMFjHQMPL7GmvBP__JwLyoIuouUD6_0o66TvAb1Upkt7tV4HCwL-C9k"},
+            method: "GET"
+        }).done(function(response) {
+
+            results = response.playlists.items;
+            console.log(results);
+
+
+            for (var i = 0; i < results.length; i++) {
+                playlistDiv = $("<div>")
+                pName = $("<p>");
+                pName.text("Playlist Name: " + results[i].name);
+                pHref = $("<p>");
+                pHref.text("External Href from Object: " + results[i].external_urls.spotify)
+                playlistDiv.append(pName);
+                playlistDiv.append(pHref);
+                playlistDiv.addClass("playlistDiv");
+                $("#playlist-items").append(playlistDiv);
+            } // end of for loop
+
+
+            var listMin = 0;
+            var listMax = results.length;
+
+            function pickList(min, max) {
+                var i = parseInt(Math.random() * (max - min) + min);
+                var currentListName = results[i].name;
+                var currentListID = results[i].id;
+                var currentListUser = results[i].uri;
+                var currentListUserId = currentListUser.match("user:(.*):playlist");
+                console.log("PLAYLIST INFO  //  random list: " + i + ", name: " + currentListName + ", id: " + currentListID);
+                console.log("PLAYLIST OWNER INFO  //  currentListUser: " + currentListUser + ", currentListUserId: " + currentListUserId[1]);
+
+                $("#playlist-items").append(currentListName);
+
+                // build this: <iframe src="" width="300" height="380" frameborder="0" allowtransparency="true"></iframe>
+                var widget = $("<iframe>");
+                widget.attr({
+                    "width": widgetWidth, // see global variables
+                    "height": widgetHeight, // see global variables
+                    "frameborder": 0,
+                    "allowtransparency": "true",
+                    "src": widgetUrl + currentListUserId[1] + ":playlist:" + currentListID // build url
+                });
+                console.log(widget);
+                $("#widget-container").html(widget);
+            }
+
+            pickList(listMin, listMax); // select a playlist at random from the search results
+
+            // modify this to get artist info from playlist instead of track
+            // clicking an item will send artist to BIT and return show data
+            // later, we will remove the click function and have this happen automatically when a new track starts.
+
+            for (var i = 0; i < results.length; i++) {
+                playlistDiv = $("<div>")
+                playlistDiv.addClass("well well-sm")
+                pName = $("<p>");
+                pName.text("Track Name: " + results[i].name);
+                //pushing artists to the artist array, but building in index test to prevent duplicates
+                if (artists.indexOf(results[i].artists[0].name) === -1) {
+                    artists.push(results[i].artists[0].name)
+                };
+                pArtist = $("<p>");
+                pArtist.text(results[i].artists[0].name);
+                pArtist.addClass("artist-name");
+                pArtist.attr("data-name", results[i].artists[0].name)
+                playlistDiv.append(pName);
+                playlistDiv.append(pArtist);
+                playlistDiv.addClass("playlistDiv");
+                $("#playlist-items").append(playlistDiv);
+            } // end of for loop
+
+
+        }); // end of done function response
+
+        switch (this.getAttribute("data-emo")) {
 
 
             case "Puzzled":
@@ -405,8 +227,8 @@
                 $("#suggestions").css("background-image", "url('https://cdn.pixabay.com/photo/2017/02/16/18/34/desktop-2072063_960_720.png')");
                 $("#playerLayer").css("backgroundColor", "SandyBrown");
                 $("#suggestionsLayer").css("backgroundColor", "midnightBlue");
-                $("#suggestions").css("borderColor","#330000");
-                $("#player").css("borderColor","##330000");
+                $("#suggestions").css("borderColor", "#330000");
+                $("#player").css("borderColor", "##330000");
                 $("#page2").css("backgroundColor", "#4d0000");
                 console.log("working");
 
@@ -554,10 +376,10 @@
                 break;
 
 
-        }//end of switch statements in click events
+        } //end of switch statements in click events
 
 
-$("html,body").delay(500).animate({ scrollTop: $("#page2").offset().top }, 1400);
+        $("html,body").delay(500).animate({ scrollTop: $("#page2").offset().top }, 1400);
         $("#moodDiv").empty();
         $("#moodDiv").append(this.getAttribute("data-emo"));
 
@@ -567,102 +389,29 @@ $("html,body").delay(500).animate({ scrollTop: $("#page2").offset().top }, 1400)
 
 
 
-      $("#playlist-items").empty();
-      // artists = [];
-      topic = this.getAttribute("data-emo");
-      var listArr = []
-          // leaving this as playlist instead of artist because jason got the spotify authorization
-      var queryUrl = "https://api.spotify.com/v1/search?q=" + topic + "&type=playlist";
+        $("#playlist-items").empty();
+        // artists = [];
+        topic = this.getAttribute("data-emo");
+        var listArr = []
+            // leaving this as playlist instead of artist because jason got the spotify authorization
+        var queryUrl = "https://api.spotify.com/v1/search?q=" + topic + "&type=playlist";
 
-      $.ajax({
-          url: queryUrl,
-          //headers: { "Authorization": "Bearer " + "BQBVgnFxqm_8fUIR3uRjY5KZTL85HDbuM34jCM8_Sr7W51L8DphLMCNP76c4h_z294Tez3Iz6OerYYbxigMOBDRcOhS5arxkXjxm7j8xEtKrEiMFjHQMPL7GmvBP__JwLyoIuouUD6_0o66TvAb1Upkt7tV4HCwL-C9k"},
-          method: "GET"
-      }).done(function(response) {
+        $.ajax({
+            url: queryUrl,
+            //headers: { "Authorization": "Bearer " + "BQBVgnFxqm_8fUIR3uRjY5KZTL85HDbuM34jCM8_Sr7W51L8DphLMCNP76c4h_z294Tez3Iz6OerYYbxigMOBDRcOhS5arxkXjxm7j8xEtKrEiMFjHQMPL7GmvBP__JwLyoIuouUD6_0o66TvAb1Upkt7tV4HCwL-C9k"},
+            method: "GET"
+        }).done(function(response) {
 
-          results = response.playlists.items;
-          console.log(results);
-
-          //KWAKU NOTE: does the following work?
-          /*
-          for (var i = 0; i < results.length; i++) {
-              playlistDiv = $("<div>")
-              pName = $("<p>");
-              pName.text("Playlist Name: " + results[i].name);
-              pHref = $("<p>");
-              pHref.text("External Href from Object: " + results[i].external_urls.spotify)
-              playlistDiv.append(pName);
-              playlistDiv.append(pHref);
-              playlistDiv.addClass("playlistDiv");
-              $("#playlist-items").append(playlistDiv);
-          } // end of for loop
-          */
-
-          var listMin = 0;
-          var listMax = results.length;
-
-          function pickList(min, max) {
-              var i = parseInt(Math.random() * (max - min) + min);
-              var currentListName = results[i].name;
-              var currentListID = results[i].id;
-              var currentListUser = results[i].uri;
-              var currentListUserId = currentListUser.match("user:(.*):playlist");
-              console.log("PLAYLIST INFO  //  random list: " + i + ", name: " + currentListName + ", id: " + currentListID);
-              console.log("PLAYLIST OWNER INFO  //  currentListUser: " + currentListUser + ", currentListUserId: " + currentListUserId[1]);
-
-              $("#playlist-items").append(currentListName);
-
-              // build this: <iframe src="" width="300" height="380" frameborder="0" allowtransparency="true"></iframe>
-              var widget = $("<iframe>");
-              widget.attr({
-                  "width": widgetWidth, // see global variables
-                  "height": widgetHeight, // see global variables
-                  "frameborder": 0,
-                  "allowtransparency": "true",
-                  "src": widgetUrl + currentListUserId[1] + ":playlist:" + currentListID // build url
-              });
-              console.log(widget);
-              $("#widgetContainer").html(widget);
-          }
-
-          pickList(listMin, listMax); // select a playlist at random from the search results
-
-          // modify this to get artist info from playlist instead of track
-          // clicking an item will send artist to BIT and return show data
-          // later, we will remove the click function and have this happen automatically when a new track starts.
-          /*
-          for (var i = 0; i < results.length; i++) {
-              playlistDiv = $("<div>")
-              playlistDiv.addClass("well well-sm")
-              pName = $("<p>");
-              pName.text("Track Name: " + results[i].name);
-              //pushing artists to the artist array, but building in index test to prevent duplicates
-              if (artists.indexOf(results[i].artists[0].name) === -1) {
-                  artists.push(results[i].artists[0].name)
-              };
-              pArtist = $("<p>");
-              pArtist.text(results[i].artists[0].name);
-              pArtist.addClass("artist-name");
-              pArtist.attr("data-name", results[i].artists[0].name)
-              playlistDiv.append(pName);
-              playlistDiv.append(pArtist);
-              playlistDiv.addClass("playlistDiv");
-              $("#playlist-items").append(playlistDiv);
-          } // end of for loop
-          */
-
-      // end of done function response
-});
-
-
- });
+            results = response.playlists.items;
+            console.log(results);
 
 
 
+            // end of done function response
+        });
 
 
-
-
+    });
 
 
 
@@ -675,216 +424,216 @@ $("html,body").delay(500).animate({ scrollTop: $("#page2").offset().top }, 1400)
 
         $("html,body").animate({ scrollTop: $("#welcome").offset().top }, 500);
         $("#moodDiv").hide();
-          console.log("working?!");
+        console.log("working?!");
 
-//document.ready END
+
     });
 
 
-//SETTING UP LOGIC ... WILL TRY AND DOCUMENT NOTES
+    //SETTING UP LOGIC ... WILL TRY AND DOCUMENT NOTES
 
-//ZIP Code gathering
-var userCity = '';
+    //ZIP Code gathering
+    var userCity = '';
 
-function cityLaunch(e) {
-  e.preventDefault();
-  //set the user city
-  userCity = $('#city').val().trim();
-  //hide the login screen (you can animate this)
-  $('#app-login').hide()
-  //show the selection screen
-  $('#app-main').show();
-  //can set this up anywhere
-  renderButtons();
-}
-
-function genPlaylists(e) {
-  e.preventDefault();
-  $("#playlist-items").empty();
-  //JN: topic should be OK to be locally scoped
-  var topic = $(this).attr("data-name");
-  var limit = 5 //Set Max results -> Could be an option FEATURE
-  var queryUrl="https://api.spotify.com/v1/search?q=" + topic +"&type=playlist&limit="+limit;
-  $.ajax({
-      url: queryUrl,
-      // headers: { "Authorization": "Bearer " + "BQBVgnFxqm_8fUIR3uRjY5KZTL85HDbuM34jCM8_Sr7W51L8DphLMCNP76c4h_z294Tez3Iz6OerYYbxigMOBDRcOhS5arxkXjxm7j8xEtKrEiMFjHQMPL7GmvBP__JwLyoIuouUD6_0o66TvAb1Upkt7tV4HCwL-C9k"},
-      method: "GET"
-      }).done(function(response) {
-      results=response.playlists.items;
-      console.log(results);
-
-        for (var i=0; i<results.length; i++) {
-          playlistDiv=$("<div>");
-          $(playlistDiv).attr({
-            'data-href': results[i].tracks.href,
-            'data-uri': results[i].uri
-          });
-          pName=$("<p>");
-          pName.text("Playlist Name: " + results[i].name);
-
-          playlistDiv.append(pName);
-
-          playlistDiv.addClass("playlistDiv");
-          $("#playlist-items").append(playlistDiv);
-        } // end of for loop
-      });  // end of done function response
-}
-
-function launchPlayer(e) {
-  //borrowed this code from above:
-  // build this: <iframe src="" width="300" height="380" frameborder="0" allowtransparency="true"></iframe>
-      var widget = $("<iframe>");
-      var playlistUrl = $(this).attr('data-href');
-      var playlistUri = $(this).attr('data-uri');
-
-              widget.attr({
-                  "width": widgetWidth, // see global variables
-                  "height": widgetHeight, // see global variables
-                  "frameborder": 0,
-                  "allowtransparency": "true",
-                  "src": widgetUrl + playlistUri // build url
-              });
-              console.log(widget);
-              $("#widget-container").html(widget);
-
-  //get artist info
-  grabArtist(playlistUrl);
-  //search bandsintown
-  //TICKET: JN when running launchPlayer() -> this function doesn't run the first time
-  searchShows(thinArr);
-}
-
-//Events
-$('#add-city').on('click', cityLaunch);
-$('#item-buttons').on('click', '.topic-item', genPlaylists);
-$(document).on('click', '.playlistDiv', launchPlayer);
-
-//THIS FUNCTION GRABS INFO FROM RETURNED LISTING
-function grabArtist(url) {
-  console.log(url);
-  $.ajax({
-  context: this,
-  url: url,
-  headers: { "Authorization": "Bearer " + access_token},
-   method: "GET"
-   }).done(function(response) {
-     for (i=0; i<response.items.length; i++) {
-     var artist = response.items[i].track.artists[0].name;
-     artists.push(artist);
-     //removing duplicates
-     $.each(artists, function(i, el){
-       if($.inArray(el, thinArr) === -1) thinArr.push(el);
-      });
-
+    function cityLaunch(e) {
+        e.preventDefault();
+        //set the user city
+        userCity = $('#city').val().trim();
+        //hide the login screen (you can animate this)
+        $('#app-login').hide()
+            //show the selection screen
+        $('#app-main').show();
+        $("#other-playlists").show();
+        $("#new-log-in").hide();
+        //can set this up anywhere
+        // renderButtons();
     }
 
- }).fail(function(jqXHR){
-  $('.modal').addClass('activate');
- });
-}
-
-function reupSpotify() {
-  $('.modal').addClass('activate');
-}
-
-function searchShows(arr) {
-  $("#artist-events").empty();
-  $('#artist-events').append('<h3>Upcoming Shows in '+userCity+'</h3>');
-  //looping over thinned out artist array
-  for (i=0; i<arr.length; i++) {
-    var queryUrl = "https://rest.bandsintown.com/artists/" + arr[i] + "/events?app_id=MoodMash"; // to add date range format is "&date=2017-03-01,2017-12-31";
-    $.ajax({
-        url: queryUrl,
-        method: "GET"
+    function genPlaylists(e) {
+        e.preventDefault();
+        $("#playlist-items").empty();
+        //JN: topic should be OK to be locally scoped
+        var topic = $(this).attr("data-name");
+        var limit = 5 //Set Max results -> Could be an option FEATURE
+        var queryUrl = "https://api.spotify.com/v1/search?q=" + topic + "&type=playlist&limit=" + limit;
+        $.ajax({
+            url: queryUrl,
+            // headers: { "Authorization": "Bearer " + "BQBVgnFxqm_8fUIR3uRjY5KZTL85HDbuM34jCM8_Sr7W51L8DphLMCNP76c4h_z294Tez3Iz6OerYYbxigMOBDRcOhS5arxkXjxm7j8xEtKrEiMFjHQMPL7GmvBP__JwLyoIuouUD6_0o66TvAb1Upkt7tV4HCwL-C9k"},
+            method: "GET"
         }).done(function(response) {
-          eventListings = response;
-          console.log(eventListings);
-          for (i=0; i<eventListings.length; i++) {
-            if (eventListings[i].venue.city === userCity) {
-              var artistName = eventListings[i].lineup[0];
-              var convertedDate = moment(eventListings[i].datetime).format("MM/DD/YY" + ", " + "hh:mmA");
-              var venue = eventListings[i].venue.name;
-              var artistDiv = $('<div class="event-div">');
-              //JN: May want to structure this more
-              $(artistDiv).append('<div>'+artistName+'</div><div>'+venue+'</div><div>'+convertedDate+'</div>');
-              $('#artist-events').append(artistDiv);
+            results = response.playlists.items;
+            console.log(results);
+
+            for (var i = 0; i < results.length; i++) {
+                playlistDiv = $("<div>");
+                $(playlistDiv).attr({
+                    'data-href': results[i].tracks.href,
+                    'data-uri': results[i].uri
+                });
+                pName = $("<p>");
+                pName.text("Playlist Name: " + results[i].name);
+
+                playlistDiv.append(pName);
+
+                playlistDiv.addClass("playlistDiv");
+                $("#playlist-items").append(playlistDiv);
+            } // end of for loop
+        }); // end of done function response
+    }
+
+    function launchPlayer(e) {
+        //borrowed this code from above:
+        // build this: <iframe src="" width="300" height="380" frameborder="0" allowtransparency="true"></iframe>
+        var widget = $("<iframe>");
+        var playlistUrl = $(this).attr('data-href');
+        var playlistUri = $(this).attr('data-uri');
+
+        widget.attr({
+            "width": widgetWidth, // see global variables
+            "height": widgetHeight, // see global variables
+            "frameborder": 0,
+            "allowtransparency": "true",
+            "src": widgetUrl + playlistUri // build url
+        });
+        console.log(widget);
+        $("#widget-container").html(widget);
+
+        //get artist info
+        grabArtist(playlistUrl);
+        //search bandsintown
+        //TICKET: JN when running launchPlayer() -> this function doesn't run the first time
+        searchShows(thinArr);
+    }
+
+    //Events
+    $('#add-city').on('click', cityLaunch);
+    $('#item-buttons').on('click', '.topic-item', genPlaylists);
+    $(document).on('click', '.playlistDiv', launchPlayer);
+
+    //THIS FUNCTION GRABS INFO FROM RETURNED LISTING
+    function grabArtist(url) {
+        console.log(url);
+        $.ajax({
+            context: this,
+            url: url,
+            headers: { "Authorization": "Bearer " + access_token },
+            method: "GET"
+        }).done(function(response) {
+            for (i = 0; i < response.items.length; i++) {
+                var artist = response.items[i].track.artists[0].name;
+                artists.push(artist);
+                //removing duplicates
+                $.each(artists, function(i, el) {
+                    if ($.inArray(el, thinArr) === -1) thinArr.push(el);
+                });
+
             }
-            // else {
-            //   $('#artist-events').append('<div>Sorry! No bands on this playlist are coming to your town!</div>')
-            // }
-          // for (var i = 0; i < eventListings.length; i++) {
-          //     var convertedDate = moment(eventListings[i].datetime).format("MM/DD/YY" + ", " + "hh:mm");
-          //     eventDiv = $("<div>");
-          //     eventDiv.addClass("well well-sm");
-          //     pDate = $("<p>");
-          //     pVenue = $("<p>");
-          //     pCity = $("<p>");
-          //     pCoordinates = $("<p>");
-          //     pDate.text(convertedDate);
-          //     pVenue.text(eventListings[i].venue.name);
-          //     pCity.text( + ", " + eventListings[i].venue.region);
-          //     pCoordinates.text(eventListings[i].venue.latitude + " ,  " + eventListings[i].venue.longitude);
-          //     eventDiv.append(pDate, pVenue, pCity, pCoordinates);
-          //     $("#artist-events").append(eventDiv);
-          // } // end of for loop
+
+        }).fail(function(jqXHR) {
+            $('.modal').addClass('activate');
+        });
+    }
+
+    function reupSpotify() {
+        $('.modal').addClass('activate');
+    }
+
+    function searchShows(arr) {
+        $("#artist-events").empty();
+        $('#artist-events').append('<h3>Upcoming Shows in ' + userCity + '</h3>');
+        //looping over thinned out artist array
+        for (i = 0; i < arr.length; i++) {
+            var queryUrl = "https://rest.bandsintown.com/artists/" + arr[i] + "/events?app_id=MoodMash"; // to add date range format is "&date=2017-03-01,2017-12-31";
+            $.ajax({
+                url: queryUrl,
+                method: "GET"
+            }).done(function(response) {
+                eventListings = response;
+                console.log(eventListings);
+                for (i = 0; i < eventListings.length; i++) {
+                    if (eventListings[i].venue.city === userCity) {
+                        var artistName = eventListings[i].lineup[0];
+                        var convertedDate = moment(eventListings[i].datetime).format("MM/DD/YY" + ", " + "hh:mmA");
+                        var venue = eventListings[i].venue.name;
+                        var artistDiv = $('<div class="event-div">');
+                        //JN: May want to structure this more
+                        $(artistDiv).append('<div>' + artistName + '</div><div>' + venue + '</div><div>' + convertedDate + '</div>');
+                        $('#artist-events').append(artistDiv);
+                    } else {
+                        $('#artist-events').append('<div>Sorry! No bands on this playlist are coming to your town!</div>')
+                    }
+                    for (var i = 0; i < eventListings.length; i++) {
+                        var convertedDate = moment(eventListings[i].datetime).format("MM/DD/YY" + ", " + "hh:mm");
+                        eventDiv = $("<div>");
+                        eventDiv.addClass("well well-sm");
+                        pDate = $("<p>");
+                        pVenue = $("<p>");
+                        pCity = $("<p>");
+                        pCoordinates = $("<p>");
+                        pDate.text(convertedDate);
+                        pVenue.text(eventListings[i].venue.name);
+                        pCity.text(+", " + eventListings[i].venue.region);
+                        pCoordinates.text(eventListings[i].venue.latitude + " ,  " + eventListings[i].venue.longitude);
+                        eventDiv.append(pDate, pVenue, pCity, pCoordinates);
+                        $("#artist-events").append(eventDiv);
+                    } // end of for loop
+                }
+            }); // end of done function
         }
-      }); // end of done function
-  }
-}
+    }
 
-//THIS GETS THE ACCESS TOKEN DURING SESSION
-function getTokenFromServer() {
-  var hashParams = {};
-  var e, r = /([^&;=]+)=?([^&;]*)/g,
-  q = window.location.hash.substring(1);
-  while ( e = r.exec(q)) {
-    hashParams[e[1]] = decodeURIComponent(e[2]);
-  }
-  return hashParams;
-}
+    //THIS GETS THE ACCESS TOKEN DURING SESSION
+    function getTokenFromServer() {
+        var hashParams = {};
+        var e, r = /([^&;=]+)=?([^&;]*)/g,
+            q = window.location.hash.substring(1);
+        while (e = r.exec(q)) {
+            hashParams[e[1]] = decodeURIComponent(e[2]);
+        }
+        return hashParams;
+    }
 
-//RENDER TOKEN
-var token = getTokenFromServer();
-var access_token = token.access_token;
-console.log(token);
+    //RENDER TOKEN
+    var token = getTokenFromServer();
+    var access_token = token.access_token;
+    console.log(token);
 
-//check if you got that token!
-function tokenCheck() {
-  //this function should run on page refresh!
-  if (jQuery.isEmptyObject(token)) {
-    //you are NOT authorized and can't use the app!
-    return;
-  }
-  else {
-    //will launch the next window
-    $('#app-intro').hide();
-    $('#app-login').show();
-  }
-}
+    //check if you got that token!
+    function tokenCheck() {
+        //this function should run on page refresh!
+        if (jQuery.isEmptyObject(token)) {
+            //you are NOT authorized and can't use the app!
+            return;
+        } else {
+            //will launch the next window
+            $('#app-intro').hide();
+            $('#app-login').show();
+        }
+    }
 
-//firebased god
-  var config = {
-    apiKey: "AIzaSyCJWSKJq1r2_Fyu9hk8NdNFXWV1PAmgLXU",
-    authDomain: "mood-mash-userbase.firebaseapp.com",
-    databaseURL: "https://mood-mash-userbase.firebaseio.com",
-    storageBucket: "mood-mash-userbase.appspot.com",
-    messagingSenderId: "1081624019575"
-  };
-  firebase.initializeApp(config);
+    //firebased god
+    var config = {
+        apiKey: "AIzaSyCJWSKJq1r2_Fyu9hk8NdNFXWV1PAmgLXU",
+        authDomain: "mood-mash-userbase.firebaseapp.com",
+        databaseURL: "https://mood-mash-userbase.firebaseio.com",
+        storageBucket: "mood-mash-userbase.appspot.com",
+        messagingSenderId: "1081624019575"
+    };
+    firebase.initializeApp(config);
 
-  //initialize the database
-  var database = firebase.database();
+    //initialize the database
+    var database = firebase.database();
 
-  //set a ref to child -> moods
-  var btnRef = database.ref('moodList');
+    //set a ref to child -> moods
+    var btnRef = database.ref('moodList');
 
-  //click counter set to 0 globally ... within the click function reset it to the value being targeted
-  var clickCounter = 0;
+    //click counter set to 0 globally ... within the click function reset it to the value being targeted
+    var clickCounter = 0;
 
-  //this function takes clicked element and adds ref/key to datatbase AND SHOULD UPDATE THE TIMES CLICKED
-  function countClicks(e) {
-    e.preventDefault();
-
+    //this function takes clicked element and adds ref/key to datatbase AND SHOULD UPDATE THE TIMES CLICKED
+    function countClicks(e) {
+        e.preventDefault();
+    }
     //check to see if exists and set the clickCounter
     // database.ref().on('value',function(snap){
     //   if (snap.child('moodItem').exists()) {
@@ -909,10 +658,10 @@ function tokenCheck() {
     //   }
     //   else {
     //     console.log('adding now');
-        // database.ref().push({
-        //   moodItem: mood,
-        //   clickNum: clickCounter
-        // });
+    // database.ref().push({
+    //   moodItem: mood,
+    //   clickNum: clickCounter
+    // });
     //   }
     // });
     // var moodExists =
@@ -935,37 +684,323 @@ function tokenCheck() {
     //     clicksCounted: clickCount
     //   });
     // }
-}
 
 
-  // On Click of Button
-  $("#item-buttons").on("click", ".topic-item", countClicks);
 
-  // MAIN PROCESS + INITIAL CODE
-  // --------------------------------------------------------------------------------
+    // On Click of Button
+    $("#item-buttons").on("click", ".topic-item", countClicks);
 
-  // Using .on("value", function(snapshot)) syntax will retrieve the data
-  // from the database (both initially and every time something changes)
-  // This will then store the data inside the variable "snapshot". We could rename "snapshot" to anything.
-  //value is an event from firebase
-  // database.ref().on("value", function(snapshot) {
-  //   if(snapshot.child().exists()) {
-  //   // Then we console.log the value of snapshot
-  //   console.log(snapshot.val());
-  //
-  //   // Then we change the html associated with the number.
-  //   // $("#click-value").html(snapshot.val().clickCount);
-  //
-  //   // Then update the clickCounter variable with data from the database.
-  //   // clickCounter = snapshot.val().clickCount;
-  //
-  // // If there is an error that Firebase runs into -- it will be stored in the "errorObject"
-  // // Again we could have named errorObject anything we wanted.
-  // }, function(errorObject) {
-  //
-  //   // In case of error this will print the error
-  //   console.log("The read failed: " + errorObject.code);
-  // });
+    // MAIN PROCESS + INITIAL CODE
+    // --------------------------------------------------------------------------------
 
-$('#playlistItems').on('click', '.playlistDiv', genPlaylists);
-tokenCheck();
+    // Using .on("value", function(snapshot)) syntax will retrieve the data
+    // from the database (both initially and every time something changes)
+    // This will then store the data inside the variable "snapshot". We could rename "snapshot" to anything.
+    //value is an event from firebase
+    // database.ref().on("value", function(snapshot) {
+    //   if(snapshot.child().exists()) {
+    //   // Then we console.log the value of snapshot
+    //   console.log(snapshot.val());
+    //
+    //   // Then we change the html associated with the number.
+    //   // $("#click-value").html(snapshot.val().clickCount);
+    //
+    //   // Then update the clickCounter variable with data from the database.
+    //   // clickCounter = snapshot.val().clickCount;
+    //
+    // // If there is an error that Firebase runs into -- it will be stored in the "errorObject"
+    // // Again we could have named errorObject anything we wanted.
+    // }, function(errorObject) {
+    //
+
+    //   // In case of error this will print the error
+    //   console.log("The read failed: " + errorObject.code);
+    // });
+
+    $('#playlistItems').on('click', '.playlistDiv', genPlaylists);
+    tokenCheck();
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// REMOVED FOR NEATNESS:
+
+
+
+
+
+
+// function renderButtons() {
+//     $("#item-buttons").empty();
+//     //loop for adding buttons modeled after in class example on movie topics
+//     for (var i = 0; i < topics.length; i++) {
+//         var a = $("<button>");
+//         a.addClass("topic-item");
+//         a.attr("data-name", topics[i]);
+//         a.text(topics[i]);
+//         $("#item-buttons").append(a);
+//     }
+// } //end of renderButtons function
+
+// Function to add new topic button
+/*
+$("#add-item").on("click", function(event) {
+    event.preventDefault();
+    var newTopic = $("#search-input").val().trim();
+    $("#search-input").val("");
+    // if statement to prevent duplicate items from being added
+    if (topics.indexOf(newTopic) === -1) {
+        topics.push(newTopic);
+        renderButtons();
+    } else {
+        return
+    }
+});
+*/
+
+
+// }); // end of topicItem on click function
+
+
+// Functions
+//===============================================
+
+
+
+
+
+// Kwaku's stuff
+//=================================================
+//JN: Removing this because using two page setup: node is logging in user when they hit index.html
+//$("#app-login").hide();
+// $("#app-main").hide();
+//
+// $("#returning-user").on("click", function() {
+//     $("#app-intro").hide();
+//     $("#app-login").show();
+//     $("#new-log-in").hide();
+// });
+//
+// $("#new-user").on("click", function() {
+//     $("#app-intro").hide();
+//     $("#app-login").show();
+//     $("#exist-log-in").hide();
+// });
+//
+//
+// $("#check-user").on("click", function() {
+//     $("#app-login").hide();
+//     $("#app-main").show();
+//     console.log("working");
+// });
+//
+//
+// $("#add-new-user").on("click", function() {
+//     $("#app-login").hide();
+//     $("#app-main").show();
+//     console.log("working");
+// });
+
+//JN: UPDATED THIS CODE ... backgroundColor was erroring
+//JN: removing this code ... use gradient bg instead
+//background colors
+
+// $(window).scroll(function() {
+//     var previousScroll = 0;
+//     var currentScroll = $(this).scrollTop();
+//     if (currentScroll > previousScroll) {
+//         $("body").css('background-color', 'PapayaWhip');
+//     } else {
+//         $("body").css('background-color', 'LightYellow');
+//     }
+//     previousScroll = currentScroll;
+// });
+
+// Initialize Firebase
+// temporarily disabled for bad key
+/*
+  var config = {
+      apiKey: "",
+      authDomain: "",
+      databaseURL: "",
+      storageBucket: ""
+  };
+  firebase.initializeApp(config);
+  // Create a variable to reference the database
+  var database = firebase.database();
+  // Initial Values
+  // var user = "";
+  database.ref().on("value", function(snapshot) {
+      //RETURNING USERS
+      $("#check-user").on("click", function(event) {
+          event.preventDefault();
+          var userId = $("#user-name-input").val().trim();
+          //do we need to store to check if exists? and delete the repeat If so?
+          //In that case:
+          // database.ref().set({
+          //      user-id: user-id,
+          //    });
+          if (snapshot.child("user-id").exists()) {
+              //delete recent addition
+              //show span of "welcome Back"
+              //trigger function to change html to show mood icons and home page.
+              //load user information with stored zipcode
+          } else {
+              //delete recent addition
+              //show span above input "We did not recognize this name"
+          }
+      });
+  });
+*/
+
+//NEW USERS
+// JN: We are removing this functionality
+// $("#add-new-user").on("click", function(event) {
+//     event.preventDefault();
+//     var userId = $("#user-name-input2").val().trim();
+//     var userZip = $("#zip-code").val().trim();
+//     database.ref().set({
+//         userInfo: userId,
+//         userZip
+//     });
+//     //trigger function to change html to show mood icons and home page.
+//     //end of firebase on value
+// });
+
+
+
+
+
+//KEEP THIS CODE to MERGE
+/*         $.ajax({
+          url: queryUrl,
+          // headers: { "Authorization": "Bearer " + "BQBVgnFxqm_8fUIR3uRjY5KZTL85HDbuM34jCM8_Sr7W51L8DphLMCNP76c4h_z294Tez3Iz6OerYYbxigMOBDRcOhS5arxkXjxm7j8xEtKrEiMFjHQMPL7GmvBP__JwLyoIuouUD6_0o66TvAb1Upkt7tV4HCwL-C9k"},
+          method: "GET"
+          }).done(function(response) {
+
+           results=response.playlists.items;
+
+           console.log(results);
+
+            for (var i=0; i<results.length; i++) {
+              playlistDiv=$("<div>");
+              $(playlistDiv).attr('data-href',results[i].tracks.href);
+              pName=$("<p>");
+              pName.text("Playlist Name: " + results[i].name);
+              pHref=$("<p>");
+              pHref.text("External Href from Object: " + results[i].external_urls)
+
+              playlistDiv.append(pName);
+              playlistDiv.append(pHref);
+
+              playlistDiv.addClass("playlistDiv");
+              $("#playlistItems").append(playlistDiv);
+            } // end of for loop
+          });  // end of done function response
+   
+
+    //GET https://api.spotify.com/v1/users/{user_id}/playlists/{playlist_id}/tracks
+    */
+
+
+
+
+
+
+
+//KWAKU NOTE: does the following work?
+/*
+for (var i = 0; i < results.length; i++) {
+    playlistDiv = $("<div>")
+    pName = $("<p>");
+    pName.text("Playlist Name: " + results[i].name);
+    pHref = $("<p>");
+    pHref.text("External Href from Object: " + results[i].external_urls.spotify)
+    playlistDiv.append(pName);
+    playlistDiv.append(pHref);
+    playlistDiv.addClass("playlistDiv");
+    $("#playlist-items").append(playlistDiv);
+} // end of for loop
+*/
+
+// var listMin = 0;
+// var listMax = results.length;
+
+// function pickList(min, max) {
+//     var i = parseInt(Math.random() * (max - min) + min);
+//     var currentListName = results[i].name;
+//     var currentListID = results[i].id;
+//     var currentListUser = results[i].uri;
+//     var currentListUserId = currentListUser.match("user:(.*):playlist");
+//     console.log("PLAYLIST INFO  //  random list: " + i + ", name: " + currentListName + ", id: " + currentListID);
+//     console.log("PLAYLIST OWNER INFO  //  currentListUser: " + currentListUser + ", currentListUserId: " + currentListUserId[1]);
+
+//     $("#playlist-items").append(currentListName);
+
+//     // build this: <iframe src="" width="300" height="380" frameborder="0" allowtransparency="true"></iframe>
+//     var widget = $("<iframe>");
+//     widget.attr({
+//         "width": widgetWidth, // see global variables
+//         "height": widgetHeight, // see global variables
+//         "frameborder": 0,
+//         "allowtransparency": "true",
+//         "src": widgetUrl + currentListUserId[1] + ":playlist:" + currentListID // build url
+//     });
+//     console.log(widget);
+//     $("#widgetContainer").html(widget);
+// }
+
+// pickList(listMin, listMax); // select a playlist at random from the search results
+
+// modify this to get artist info from playlist instead of track
+// clicking an item will send artist to BIT and return show data
+// later, we will remove the click function and have this happen automatically when a new track starts.
+/*
+for (var i = 0; i < results.length; i++) {
+    playlistDiv = $("<div>")
+    playlistDiv.addClass("well well-sm")
+    pName = $("<p>");
+    pName.text("Track Name: " + results[i].name);
+    //pushing artists to the artist array, but building in index test to prevent duplicates
+    if (artists.indexOf(results[i].artists[0].name) === -1) {
+        artists.push(results[i].artists[0].name)
+    };
+    pArtist = $("<p>");
+    pArtist.text(results[i].artists[0].name);
+    pArtist.addClass("artist-name");
+    pArtist.attr("data-name", results[i].artists[0].name)
+    playlistDiv.append(pName);
+    playlistDiv.append(pArtist);
+    playlistDiv.addClass("playlistDiv");
+    $("#playlist-items").append(playlistDiv);
+} // end of for loop
+*/
+
+
+
+// var topics = ["worked up", "puzzled", "exhausted", "determined", "political", "possessed", "touchy", "furstrated", "blissful", "dreamy"];
