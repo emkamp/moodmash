@@ -4,107 +4,107 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script type="text/javascript" src="https://use.fontawesome.com/94c6d5d787.js"></script>
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
     <script type="text/javascript" src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"></script>
     <script type="text/javascript" src="https://www.gstatic.com/firebasejs/live/3.0/firebase.js"></script>
-    <link href="https://fonts.googleapis.com/css?family=Orbitron" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Clicker+Script" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Amatic+SC" rel="stylesheet">
     <script src="https://use.fontawesome.com/94c6d5d787.js"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Orbitron">
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
     <link rel="stylesheet" href="assets/css/style.css" />
     <script type="text/javascript" src="assets/js/ui.js"></script>
     <script type="text/javascript" src="assets/js/app.js"></script>
     <title>MoodMash</title>
 </head>
 
-<body id="gradient">
-    <!-- First screen -->
-    <div id="app-intro" class="container-fluid">
-        <h1>MoodMash</h1>
-        <h2>Start Feelin'</h2>
-        <div class="form-group">
-            <a class="btn btn-default btn-lg" id="btn-auth" href="/login">Login with your Spotify</a>
+<body>
+    <!-- Header, always shows -->
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <!-- button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button -->
+                <a class="navbar-brand" href="#">MoodMash</a>
+            </div>
+            <!-- div class="navbar-collapse collapse" id="navbar-menu">
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>
+                    <li><a href="#">Link</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Dropdown <span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="#">Action</a></li>
+                            <li><a href="#">Another action</a></li>
+                            <li><a href="#">Something else here</a></li>
+                            <li class="divider"></li>
+                            <li><a href="#">Separated link</a></li>
+                            <li class="divider"></li>
+                            <li><a href="#">One more separated link</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <form class="navbar-form navbar-left" role="search">
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search">
+                    </div>
+                    <button type="submit" class="btn btn-default">Submit</button>
+                </form>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="#">Link</a></li>
+                </ul>
+            </div -->
         </div>
-    </div>
-    <!-- Second screen -->
-    <div id="app-login" class="container-fluid" style="display:none;">
-        <!-- JN: updating this to a form -->
-        <form id="new-log-in" class="form-group">
-            <label for="city">Help us set the mood by typing in your city</label>
-            <input class="form-control" id="city" type="text">
-            <input class="btn btn-default btn-lg" id="add-city" type="submit">
-        </form>
-    </div>
-    <!-- Main App area -->
-    <div id="app-main" style="display:none">
-        <div id="welcome">
-            <center>Today I'm Feeling...</center>
+    </nav>
+    <div id="main-container">
+        <!-- First Screen -->
+        <div id="app-intro" class="container-fluid">
+            <h3>Start Feelin'</h3>
+            <div class="form-group">
+                <!-- re implement node: ref="/login" -->
+                <a class="btn btn-default btn-lg" id="btn-auth" h>Login with your Spotify</a>
+            </div>
         </div>
-        <div id="emotions">
-            <center>
-                <button class="btn btn-warning btn-lg b" data-emo="Productive">Productive</button>
-                <button class="btn btn-warning btn-lg a" data-emo="Worked Up">Worked up</button>
-                <button class="btn btn-warning btn-lg z" data-emo="Puzzled">Puzzled</button>
-                <button class="btn btn-warning btn-lg e" data-emo="Exhausted">Exhausted</button>
-                <button class="btn btn-warning btn-lg b" data-emo="Determined">Determined</button>
-                <button class="btn btn-warning btn-lg v" data-emo="Political">Political</button>
-                <button class="btn btn-warning btn-lg i" data-emo="Possessed">Possessed</button>
-                <button class="btn btn-warning btn-lg a" data-emo="Touchy">Touchy</button>
-                <button class="btn btn-warning btn-lg z " data-emo="Frustrated">Frustrated</button>
-                <button class="btn btn-warning btn-lg g" data-emo="Blissful">Blissful</button>
-                <button class="btn btn-warning btn-lg c" data-emo="Dreamy">Dreamy</button>
-                <button class="btn btn-warning btn-lg gh" data-emo="Playful">Playful</button>
-                <button class="btn btn-warning btn-lg j" data-emo="Lit">Lit</button>
-                <button class="btn btn-warning btn-lg f" data-emo="Frisky">Frisky</button>
-                <button class="btn btn-warning btn-lg d" data-emo="Emo">Emo</button>
-                <button class="btn btn-warning btn-lg c" data-emo="Uplifted">Uplifted</button>
-                <button class="btn btn-warning btn-lg z" data-emo="Overwhelmed">Overwhelmed</button>
-                <button class="btn btn-warning btn-lg b" data-emo="Accomplished">Accomplished</button>
-                <button class="btn btn-warning btn-lg e" data-emo="Sleepy">Sleepy</button>
-                <button class="btn btn-warning btn-lg b" data-emo="Studious">Studious</button>
-                <button class="btn btn-warning btn-lg c" data-emo="Zen">Zen</button>
-                <button class="btn btn-warning btn-lg l" data-emo="Swole">Swole</button>
-                <button class="btn btn-warning btn-lg l" data-emo="Pumped">Pumped</button>
-                <button class="btn btn-warning btn-lg g" data-emo="Jubilant">Jubilant</button>
-                <button class="btn btn-warning btn-lg e" data-emo="Washed">Washed</button>
-                <button class="btn btn-warning btn-lg d" data-emo="Morose">Morose</button>
-                <button class="btn btn-warning btn-lg e" data-emo="Lazy">Lazy</button>
-                <button class="btn btn-warning btn-lg a" data-emo="Hangry">Hangry</button>
-            </center>
+        <!-- Second screen -->
+        <div id="app-login" class="container-fluid">
+            <form id="new-log-in" class="well">
+                <div class="form-group">
+                    <label for="city">Help us set the mood by typing in your city</label>
+                    <input class="form-control" id="city" type="text">
+                </div>
+                <div class="form-group">
+                    <input class="btn btn-default btn-lg" id="add-city" type="submit">
+                </div>
+            </form>
         </div>
-        <div id="page2">
-            <button class="btn btn-primary btn-lg" id="diff">Feeling Differently?</button>
-            <div id="moodHeading">Current Mood: </div>
-            <div id="moodDiv"></div>
-            <div id="player">
-                <div id="playerLayer">
-                    <center>Feel it now
-                    </center>
+        <!-- Main App area -->
+        <div id="app-main">
+            <div id="welcome" class="container-fluid">
+                <button id="btn-current-feeling"></button>
+                <h3>Today, I'm Feeling...</h3>
+            </div>
+            <div id="emotions"></div>
+            <div id="music" class="container-fluid">
+                <div id="player">
+                    <h3>Feel it now</h3>
                     <div id="widget-container"></div>
                 </div>
-            </div>
-            <div id="suggestions"></div>
-            <div id="suggestionsLayer">
-                <center>Feel it live
-                </center>
-                <h3>artist-events</h3>
-                <p>(bandsintown result will show here)</p>
-                <div id="artist-events"></div>
+                <div id="suggestions">
+                    <h3>Feel it live</h3>
+                    <div id="artist-events"></div>
+                </div>
             </div>
         </div>
     </div>
-    </div>
-
-    <!--here's our spotify login modal-->
-    <div class="modal">
+    <!--Spotify login modal-->
+    <div class="modal" id="spotify-re-auth">
         <div class="inner">
             <h2>Whoops!</h2>
             <p>Looks like you need to reauthorize the app</p>
             <a class="btn btn-default btn-lg" id="btn-auth" href="index.html">Login with your Spotify</a>
         </div>
+    </div>
     </div>
     <!-- Other stuff -->
     <!--adding in moment to convert date string-->

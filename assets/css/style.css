@@ -1,320 +1,117 @@
-.container-fluid{
-	border:2px solid #cccccc;
-	margin:40px;
-}
-
-[id*="app-"] {
-	background:#fff;
-}
-
-/*Adding in a simple modal window ... there's some js that's adding classes to the body*/
-
-/*by default it's off*/
 .modal {
-  position:fixed;
-  z-index:-1;
-  opacity:0;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
-  transition:all .2s cubic-bezier(0.46,-0.34, 0.54, 1.3);
-  background:rgba(0,0,0,.5);
-  padding:30px;
-  margin:0;
-  visibility: hidden;
+    position: fixed;
+    z-index: -1;
+    opacity: 0;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transition: all .2s cubic-bezier(0.46, -0.34, 0.54, 1.3);
+    background: rgba(0, 0, 0, .5);
+    padding: 30px;
+    margin: 0;
+    visibility: hidden;
 }
 
 .modal .inner {
-  background:#fff;
-  position:relative;
-  padding:15px;
-  margin:0;
-  transform:scale(.2);
-  transition:all .2s cubic-bezier(0.46,-0.34, 0.54, 1.3);
+    background: #fff;
+    position: relative;
+    padding: 15px;
+    margin: 0;
+    transform: scale(.2);
+    transition: all .2s cubic-bezier(0.46, -0.34, 0.54, 1.3);
 }
 
 .modal.activate {
-  opacity:1;
-  z-index:3;
-  visibility: visible;
-	display:block;
+    opacity: 1;
+    z-index: 3;
+    visibility: visible;
+    display: block;
 }
 
 .modal.activate .inner {
-  transform:scale(1);
+    transform: scale(1);
 }
 
-/*This should close the modal*/
 .close {
-  position:absolute;
-  top:30px;
-  right:30px;
-  padding:5px;
-  cursor: pointer;
-  color:#000;
-  font-size:24px;
+    position: absolute;
+    top: 30px;
+    right: 30px;
+    padding: 5px;
+    cursor: pointer;
+    color: #000;
+    font-size: 24px;
 }
 
 
+/* --------------------------------------------------------------------------- */
 
+.collapse { height:1px; }
+.expand {height:auto}
+.navbar-brand {
+    font-size: 30px;
+    line-height: 35px;
+    font-weight: bold;
+    padding: 10px 15px;
+}
 
+h3 {
+    border-bottom: 1px solid #445055;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
 
+#btn-current-feeling {
+    width: auto;
+    height: 40px;
+    display: inline-block;
+    line-height: 35px;
+    padding: 0 10px;
+    float: right;
+    margin: 13px 0 0 0;
+}
 
+.btn-feeling {
+    border-radius: 4px;
+    border-style: solid;
+    border-width: 2px;
+    color: #333;
+    width: 130px;
+    height: 130px;
+    margin: 10px;
+    font-size: 14px;
+    font-weight: bold;
+}
 
-/*//Kwaku*/
+.btn-feeling-doing {
+    border-color: #80CC7A;
+    background-color: #69b364;
+    text-shadow: 1px -1px 1px #80CC7A;
+}
 
-/*
- #app-main {
-        height: 2100px;
-        width: 1190px;
-        padding: 0px;
-        margin: 0px;
-    }*/
-    
-    #gradient {
-        width: 1455px;
-        height: 2500px;
-        padding: 0px;
-        margin: 0px;
-        /*opacity: .6;*/
-    }
-    
-    .container-fluid {
-        border: 2px solid #cccccc;
-        margin: 40px;
-    }
-    
-    #emotions {
-        border: solid plum 8px;
-        position: absolute;
-        top: 94px;
-        border-radius: 30px;
-        padding: 10px;
-        width: 1100px;
-        left: 28px;
-        background-image: url("https://cdn.pixabay.com/photo/2016/12/30/17/35/background-1941102_960_720.jpg");
-    }
-    
-    #page2 {
-        border: solid Gray 8px;
-        height: 1460px;
-        width: 1050px;
-        background-color: Beige;
-        position: absolute;
-        top: 870px;
-        left: 65px;
-        padding: 7px;
-        border-radius: 25px;
-    }
-    
-    #moodHeading {
-        position: absolute;
-        left: 440px;
-        top: 15px;
-        font-family: 'Clicker Script', cursive;
-        font-size: 27px;
-    }
-    
-    #moodDiv {
-        position: absolute;
-        left: 575px;
-        background-color: khaki;
-        font-family: 'Amatic SC', cursive;
-        font-size: 26px;
-        border: solid khaki;
-        border-radius: 12px;
-    }
-    
-    #welcome {
-        color: Black;
-        font-family: 'Clicker Script', cursive;
-        font-size: 36px;
-        z-index: 40px;
-        opacity: .6;
-        position: absolute;
-        right: 630px;
-        top: 27px;
-        font-weight: 75;
-        /*border: solid PapayaWhip 10px;
-            width: 1349px;
-            background-color: linen;
-*/
-    }
-    
-    #diff {
-        background-color: Beige;
-        border: solid Beige 5px;
-        border-radius: 8px;
-        position: absolute;
-        top: 8px;
-        left: 5px;
-        opacity: .2;
-        color: black;
-    }
-    
-    #diff:hover {
-        background-color: Salmon;
-        opacity: .9;
-        color: white;
-        border: solid SlateGray 5px;
-    }
-    
-    #player {
-        width: 840px;
-        height: 575px;
-        position: absolute;
-        top: 90px;
-        left: 73px;
-        background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRwFR4Jk0bOhPdGtm86VpRNNe4-cmCcd2tiuUKjcUs00eQf3_Td");
-        border: solid gold 6px;
-        border-radius: 12px;
-    }
-    
-    #suggestions {
-        width: 840px;
-        height: 575px;
-        position: absolute;
-        top: 695px;
-        left: 73px;
-        background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQE6ET0Je372pmzoyrpfqHzQov9NFmLnWxI96BG5PfbvqXbMqg");
-        border: solid gold 6px;
-        border-radius: 12px;
-    }
-    
-    #playerLayer {
-        height: 480px;
-        width: 750px;
-        background-color: gold;
-        border-color: white;
-        border: solid white 6px;
-        border-radius: 10px;
-        z-index: 22;
-        position: relative;
-        top: 47px;
-        left: 39px;
-        font-family: 'Clicker Script', cursive;
-        font-size: 23px;
-    }
+.btn-feeling-positive {
+    background-color: #F2B361;
+    border-color: #c37d28;
+}
 
+.btn-feeling-energy {
+    border-color: #f9dc45;
+    background-color: #ffea73;
+}
 
-    #widget-container {
+.btn-feeling-aggro {
+    border-color: #FF5855;
+    background-color: #F06060;
+}
 
-        
-        position: absolute;
-        left: 9px;
-        border: solid black 6px;
-        border-radius: 7px;
-        background-color: black;
-        top:39px;
-    }
-    
-    #suggestionsLayer {
-        height: 450px;
-        width: 750px;
-        background-color: gold;
-        border: solid white 6px;
-        border-color: white;
-        border-radius: 10px;
-        z-index: 22;
-        position: relative;
-        top: 752px;
-        left: 110px;
-        font-family: 'Clicker Script', cursive;
-        font-size: 23px;
-    }
-    
-    .btn {
-        color: white;
-    }
-    
+.btn-feeling-low {
+    border-color: #3271A0;
+    background-color: #5a9ccc;
+}
 
-  #other-playlists {
-
-    background-color: blue
-    height: 715px;
-    width:530px;
-    position: absolute;
-    top:715px;
-    left: 1140px;
-    z-index: 90px;
-    border: solid black 5px;
-  }
-
-    .a {
-        background-color: #990000;
-        border: solid PapayaWhip 5px;
-        border-radius: 8px;
-    }
-    
-    .b {
-        background-color: Green;
-        border: solid PapayaWhip 5px;
-        border-radius: 8px;
-    }
-    
-    .c {
-        background-color: Violet;
-        border: solid Moccasin 5px;
-        border-radius: 8px;
-    }
-    
-    .d {
-        background-color: #bfbfbf;
-        border: solid PapayaWhip 5px;
-        border-radius: 8px;
-    }
-    
-    .e {
-        background-color: LightPink;
-        border: solid PapayaWhip 5px;
-        border-radius: 8px;
-    }
-    
-    .f {
-        background-color: Indigo;
-        border: solid PapayaWhip 5px;
-        border-radius: 8px;
-    }
-    
-    .g {
-        background-color: #ffe44d;
-        border: solid PapayaWhip 5px;
-        border-radius: 8px;
-    }
-    
-    .h {
-        background-color: Maroon;
-        border: solid PapayaWhip 5px;
-        border-radius: 8px;
-    }
-    
-    .i {
-        background-color: Chocolate;
-        border: solid PapayaWhip 5px;
-        border-radius: 8px;
-    }
-    
-    .j {
-        background-color: LawnGreen;
-        border: solid PapayaWhip 5px;
-        border-radius: 8px;
-    }
-    
-    .l {
-        background-color: black;
-        border: solid PapayaWhip 5px;
-        border-radius: 8px;
-    }
-    
-    .v {
-        background-color: CadetBlue;
-        border: solid PapayaWhip 5px;
-        border-radius: 8px;
-    }
-    
-    .z {
-        background-color: MidnightBlue;
-        border: solid PapayaWhip 5px;
-        border-radius: 8px;
-    }
+#widget-container{
+    background-color: #181818;
+    border-right: 2px solid #181818;
+    border-left: 2px solid #181818;
+    border-top: 2px solid #181818;
+}
