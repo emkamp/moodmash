@@ -185,7 +185,7 @@ $(document).ready(function() {
         } //end of switch statements in click events
 
 
-
+        //Redoing this animation with some css
         $("html,body").delay(500).animate({ scrollTop: $("#page2").offset().top }, 1400);
 
         // -----------------------------------------------------------------------------------------------------------------

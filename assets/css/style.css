@@ -116,6 +116,8 @@ border:8px solid plum;
         /* left: 65px; */
         padding: 7px;
         border-radius: 25px;
+				/*JN: Dont like this but I'm done*/
+				margin-top:300px;
     }
 
     #moodHeading {
