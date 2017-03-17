@@ -1,5 +1,6 @@
-// Global variables
-//=====================================================
+// ------------------------------------------------------ GLOBAL VARIABLES ------
+//------------------------------------------------------------------------------
+
 
 var widgetWidth = '100%';
 var widgetHeight = 385;
@@ -10,62 +11,43 @@ var thinArr = []; //global placeholder for thinned out array of artists
 var inTownEvents = [];
 //end plan is for selection/displaying the actual B.I.T. info so creating this as one option
 var userCity = '';
-
-
-//------------------------------------------------- TOKEN -------
-//---------------------------------------------------------------
-
-
+var genPlaylist = [];
 
 
 // ------------------------------------------------------------ FUNCTIONS ------
 //------------------------------------------------------------------------------
-var genPlaylist = [];
-//City gathering
+
+
 function cityLaunch(e) {
     e.preventDefault();
+
     //set the user city
     userCity = $('#city').val().trim();
+
     //hide the login screen (you can animate this)
     $('#app-login').hide()
-        //show the selection screen
+
+    //show the selection screen
     $('#app-main').show();
     $("#new-log-in").hide();
-    //can set this up anywhere
 }
 
 function genPlaylists(e) {
     e.preventDefault();
-    //$("#playlist-items").empty();
     //JN: topic should be OK to be locally scoped
-    var topic = $(this).attr("data-name");
+    var topic = $(this).attr("data-emo");
+    console.log("genPlaylists: topic = " + topic);
     var limit = 5 //Set Max results -> Could be an option FEATURE
     var queryUrl = "https://api.spotify.com/v1/search?q=" + topic + "&type=playlist&limit=" + limit;
-     $.ajax({
+    $.ajax({
         context: this,
         url: queryUrl,
         headers: { "Authorization": "Bearer " + access_token },
         method: "GET"
     }).done(function(response) {
         results = response.playlists.items;
+        console.log("genPlaylists results -->");
         console.log(results);
-
-        /*
-        for (var i=0; i<results.length; i++) {
-          playlistDiv=$("<div>");
-          $(playlistDiv).attr({
-            'data-href': results[i].tracks.href,
-            'data-uri': results[i].uri
-          });
-          pName=$("<p>");
-          pName.text("Playlist Name: " + results[i].name);
-
-          playlistDiv.append(pName);
-
-          playlistDiv.addClass("playlistDiv");
-          $("#playlist-items").append(playlistDiv);
-        } // end of for loop
-        */
         var max = 5;
         var min = 1;
         var num = parseInt(Math.random() * (max - min) + min);
@@ -77,64 +59,32 @@ function genPlaylists(e) {
         var uri = genPlaylist.uri;
         console.log("uri = " + uri);
         grabArtist(href);
-
         launchPlayer(uri, href);
     }); // end of done function response
 }
 
 function launchPlayer(uri, href) {
-  //borrowed this code from above:
-  // build this: <iframe src="" width="300" height="380" frameborder="0" allowtransparency="true"></iframe>
-      var widget = $("<iframe>");
-      var playlistUrl = href;
-      var playlistUri = uri;
-
-              widget.attr({
-                  "width": widgetWidth, // see global variables
-                  "height": widgetHeight, // see global variables
-                  "frameborder": 0,
-                  "allowtransparency": "true",
-                  "src": widgetUrl + playlistUri // build url
-              });
-              console.log(widget);
-              $("#widget-container").html(widget);
-}
-
-
-/*-----------------------------------------------------------------------------------------------
-function pickList(min, max) {
-    var i = parseInt(Math.random() * (max - min) + min);
-    var chosenList = results[i];
-    var currentListName = chosenList.name;
-    var currentListID = chosenList.id;
-    var currentListUser = chosenList.uri;
-    var currentListUserId = currentListUser.match("user:(.*):playlist");
-    //JN: check the building of this widget URL with global VAR
-    var widgetSrc = widgetUrl + currentListUserId[1] + ":playlist:" + currentListID; // build url
-    console.log("pickList(): PLAYLIST INFO  //  random list: " + i + ", name: " + currentListName + ", id: " + currentListID);
-    //console.log("pickList(): PLAYLIST OWNER INFO  //  currentListUser: " + currentListUser + ", currentListUserId: " + currentListUserId[1]);
-
-    var href = chosenList.tracks.href;
-    var uri = chosenList.tracks.uri;
-
-    grabArtist(href);
-
+    //borrowed this code from above:
+    // build this: <iframe src="" width="300" height="380" frameborder="0" allowtransparency="true"></iframe>
     var widget = $("<iframe>");
+    var playlistUrl = href;
+    var playlistUri = uri;
+
     widget.attr({
-        "id": "spotify-widget",
         "width": widgetWidth, // see global variables
         "height": widgetHeight, // see global variables
         "frameborder": 0,
         "allowtransparency": "true",
-        "src": widgetSrc
+        "src": widgetUrl + playlistUri // build url
     });
+    console.log(widget);
     $("#widget-container").html(widget);
 }
- ----------------------------------------------------------------------------------------------- */
+
+
 function reupSpotify() {
     $('.modal').addClass('activate');
 }
-
 
 function grabArtist(url) {
     console.log("grabArtist(url): " + url);
@@ -148,8 +98,6 @@ function grabArtist(url) {
         console.log(response);
         for (i = 0; i < response.tracks.items.length; i++) {
             var artist = response.tracks.items[i].track.artists[0].name;
-            //console.log("grabArtist() artist -->");
-            //console.log(artist);
             artists.push(artist);
             //removing duplicates
             $.each(artists, function(i, el) {
@@ -161,17 +109,17 @@ function grabArtist(url) {
         console.log('failing!');
         reupSpotify();
     });
+
     console.log("thinArr from grabArtist(): - - - - - - - - -");
     console.log(thinArr);
+
     searchShows(thinArr);
 }
-
 
 function searchShows(arr) {
     console.log("searchShows has been called");
     console.log("What's the array in searchShows? -->");
     //console.log(arr);
-    $('#artist-events').empty();
     $('#artist-events').append('<h3>Upcoming Shows in ' + userCity + '</h3>');
     //console.log("searchShows i is: " + arr[i]);
 
@@ -185,38 +133,25 @@ function searchShows(arr) {
         }).done(function(response) {
             eventListings = response;
             console.log("EVENT LISTINGS - - - - - - - - - - - - - - - - - - - -");
-            console.log(eventListings);
+            //console.log(eventListings);
+
             for (i = 0; i < eventListings.length; i++) {
+
                 if (eventListings[i].venue.city === userCity) {
                     var artistName = eventListings[i].lineup[0];
+                    console.log("searchShows: artistName: " + artistName);
+
                     var convertedDate = moment(eventListings[i].datetime).format("MM/DD/YY" + ", " + "hh:mmA");
+                    console.log("searchShows: convertedDate: " + convertedDate);
+
                     var venue = eventListings[i].venue.name;
+                    console.log("searchShows: venue: " + venue);
+
                     var artistDiv = $('<div class="event-div">');
                     //JN: May want to structure this more
                     $(artistDiv).append('<div>' + artistName + '</div><div>' + venue + '</div><div>' + convertedDate + '</div>');
                     $('#artist-events').append(artistDiv);
-                }
-                // this always shows because else doesn't go with for.
-                /*
-                else {
-                    $('#artist-events').append('<div>Sorry! No bands on this playlist are coming to your town!</div>')
-                }
-                */
-                for (var i = 0; i < eventListings.length; i++) {
-                    var convertedDate = moment(eventListings[i].datetime).format("MM/DD/YY" + ", " + "hh:mm");
-                    eventDiv = $("<div>");
-                    eventDiv.addClass("well well-sm");
-                    pDate = $("<p>");
-                    pVenue = $("<p>");
-                    pCity = $("<p>");
-                    pCoordinates = $("<p>");
-                    pDate.text(convertedDate);
-                    pVenue.text(artistName + " is playing at " + eventListings[i].venue.name);
-                    pCity.text(eventListings[i].venue.city + ", " + eventListings[i].venue.region);
-                    pCoordinates.text(eventListings[i].venue.latitude + " ,  " + eventListings[i].venue.longitude);
-                    eventDiv.append(pDate, pVenue, pCity, pCoordinates);
-                    $("#artist-events").append(eventDiv);
-                } // end of for loop
+                } else {}
             }
         }); // end of done function
     }
@@ -227,11 +162,12 @@ function searchShows(arr) {
 
 $('#add-city').on('click', cityLaunch);
 $('#emotions').on('click', '.btn-warning', genPlaylists);
-$(".btn-warning").on("click", function() {
 
+$(".btn-warning").on("click", function() {
+    $("#artist-events").empty();
     $("#playlist-items").empty();
     artists = [];
-    topic = $(this).attr("data-name");
+    topic = $(this).attr("data-emo");
     var listArr = [];
     // leaving this as playlist instead of artist because jason got the spotify authorization
     var queryUrl = "https://api.spotify.com/v1/search?q=" + topic + "&type=playlist";
@@ -240,17 +176,39 @@ $(".btn-warning").on("click", function() {
     $("#moodDiv").append(this.getAttribute("data-emo"));
     $("#playlist-items").empty();
 
+    //TH NOTE- BEGINNNIG of Firebase stuff========================================================
+    var moodRef = firebase.database();
+    var mood = this.getAttribute("data-emo");
+
+    moodRef.ref().push({
+        city: userCity,
+        userMood: mood
+    }); // end of moodRef push
+    
+    moodRef.ref().orderByChild('city').equalTo(userCity).limitToLast(3).on('child_added', function(snapshot) {
+        var currentCity = snapshot.val().city;
+        var cityMood = (snapshot.val().userMood + " | "); // TH note--all that empty space is to put space between words. I'm sure there's a more elgant way but going for quick and dirty
+        $("#recent-moods").append(cityMood);
+    });
+    //TH NOTE --end of firebase stuff============
+
 });
 
-//firebased god
+
+// ------------------------------------------------------------ FIREBASE -------
+//------------------------------------------------------------------------------
+
+//NOTE--TH:  I've changed the firebase database to one in my own account so I can see what's happening
+// Initialize Firebase
 var config = {
-    apiKey: "AIzaSyCJWSKJq1r2_Fyu9hk8NdNFXWV1PAmgLXU",
-    authDomain: "mood-mash-userbase.firebaseapp.com",
-    databaseURL: "https://mood-mash-userbase.firebaseio.com",
-    storageBucket: "mood-mash-userbase.appspot.com",
-    messagingSenderId: "1081624019575"
+    apiKey: "AIzaSyBqVF2q_52BDrEYtc0QNmd6u_3kaKjNotA",
+    authDomain: "moodmash-9186e.firebaseapp.com",
+    databaseURL: "https://moodmash-9186e.firebaseio.com",
+    storageBucket: "moodmash-9186e.appspot.com",
+    messagingSenderId: "37101892502"
 };
 firebase.initializeApp(config);
+//END of TH Firebase config stuff
 
 //initialize the database
 var database = firebase.database();
@@ -266,86 +224,7 @@ function countClicks(e) {
     e.preventDefault();
 }
 
-//check to see if exists and set the clickCounter
-// database.ref().on('value',function(snap){
-//   if (snap.child('moodItem').exists()) {
-//     clickCount = snap.child('clickNum').val();
-//     console.log(clickCounter);
-//   }
-//   else {
-//     console.log('nope');
-//   }
-// });
-//
-// var mood = $(this).attr('data-name');
-// console.log(moodData);
-//check to see if the mood exists when value changes
-// database.on('value',function(snapshot) {
-//   //setting a moodExists varialble
-//   var moodExists = snapshot.exists();
-//   console.log(snapshot);
-//   //if mood exists get the current click count value -> update the click counter
-//   if (moodExists) {
-//     console.log('already added!');
-//   }
-//   else {
-//     console.log('adding now');
-// database.ref().push({
-//   moodItem: mood,
-//   clickNum: clickCounter
-// });
-//   }
-// });
-// var moodExists =
-// var mood = $(this).attr('data-name');
-// moodChild.push({
-//   moodBtn: mood
-//
-// //if child exists return -> else set value in database
-// if(database.child('mood').exists()) {
-//   console.log('already added!');
-// }
-// else {
-//   console.log('adding this!');
-//   moodChild.set({
-//     moodBtn: mood
-//   });
-//   clickCount++;
-//   var moodCount = moodChild.ref().child('clicksCounted');
-//   moodCount.update({
-//     clicksCounted: clickCount
-//   });
-// }
-
-// On Click of Button
 $("#item-buttons").on("click", ".topic-item", countClicks);
-
-// MAIN PROCESS + INITIAL CODE
-// --------------------------------------------------------------------------------
-
-// Using .on("value", function(snapshot)) syntax will retrieve the data
-// from the database (both initially and every time something changes)
-// This will then store the data inside the variable "snapshot". We could rename "snapshot" to anything.
-//value is an event from firebase
-// database.ref().on("value", function(snapshot) {
-//   if(snapshot.child().exists()) {
-//   // Then we console.log the value of snapshot
-//   console.log(snapshot.val());
-//
-//   // Then we change the html associated with the number.
-//   // $("#click-value").html(snapshot.val().clickCount);
-//
-//   // Then update the clickCounter variable with data from the database.
-//   // clickCounter = snapshot.val().clickCount;
-//
-// // If there is an error that Firebase runs into -- it will be stored in the "errorObject"
-// // Again we could have named errorObject anything we wanted.
-// }, function(errorObject) {
-//
-
-//   // In case of error this will print the error
-//   console.log("The read failed: " + errorObject.code);
-// });
 
 //THIS GETS THE ACCESS TOKEN DURING SESSION
 function getTokenFromServer() {
