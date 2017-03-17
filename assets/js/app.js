@@ -1,7 +1,7 @@
 // Global variables
 //=====================================================
 
-var widgetWidth = "100%";
+var widgetWidth = '100%';
 var widgetHeight = 385;
 //JN: Shortening this widgetURL b/c the spotify object returns the string needed (there was some unneccessary string manipulation happening)
 //This change is for launchPlayer function returning the URI in data-attr
@@ -11,10 +11,6 @@ var thinArr = []; //global placeholder for thinned out array of artists
 var inTownEvents = [];
 //end plan is for selection/displaying the actual B.I.T. info so creating this as one option
 var userCity = '';
-
-$(document).ready(function() {
-
-    $("#moodDiv").hide();
 
     // ------------------------------------------------------------ FUNCTIONS ------
     //------------------------------------------------------------------------------
@@ -313,5 +309,6 @@ $(document).ready(function() {
     //   console.log("The read failed: " + errorObject.code);
     // });
 
+$(document).ready(function() {
     tokenCheck();
 });
