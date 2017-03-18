@@ -1,5 +1,236 @@
+/* -------------------------------------------------------------------- LAYOUT -----*/
+
+body,
+html {
+    min-height: 100%;
+}
+
+body {
+    /* temporary mobile-imitation stuff */
+    width: 522px;
+    margin: 0 auto;
+    border-right: 1px solid #444;
+    border-left: 1px solid #444;
+    background-color: #000;
+}
+
+#main-container {
+    height: 100%;
+    background-color: #272b30;
+}
+
+#app-intro,
+#app-login,
+#app-main {
+    margin-top: -75px;
+}
+
+#app-intro .well,
+#app-login .well,
+#app-main .well {
+    opacity: 0.9;
+    background-color: rgba(61, 65, 74, 0.6);
+}
+
+h3 {
+    border-bottom: 1px solid #445055;
+    padding-bottom: 10px;
+    margin-bottom: 18px;
+}
+
+.well h3 {
+    margin-top: 5px;
+}
+
+
+/* --------------------------------------------------------------------- NAVBAR ------ */
+
+.collapse {
+    height: 1px;
+}
+
+.expand {
+    height: auto
+}
+
+.navbar {
+    margin-bottom: 0;
+}
+
+.navbar-default .navbar-brand {
+    font-size: 30px;
+    line-height: 35px;
+    font-weight: bold;
+    padding: 10px 15px;
+    color: #57c3f9;
+    text-shadow: 0px 2px 5px #107796;
+}
+
+.navbar-default .navbar-brand:hover,
+.navbar-default .navbar-brand:focus {
+    color: #57c3f9;
+    cursor: default;
+}
+
+
+/* ------------------------------------------------------------------ FEELINGS ----*/
+
+#btn-current-feeling {
+    width: auto;
+    height: 40px;
+    display: inline-block;
+    line-height: 35px;
+    padding: 0 10px;
+    float: right;
+    margin: -10px 0 0 0;
+}
+
+.btn-feeling {
+    border-radius: 4px;
+    border-style: solid;
+    border-width: 2px;
+    color: #333;
+    width: 130px;
+    height: 130px;
+    margin: 10px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.btn-feeling-doing {
+    border-color: #80CC7A;
+    background-color: #69b364;
+    text-shadow: 1px -1px 1px #80CC7A;
+}
+
+.btn-feeling-positive {
+    background-color: #F2B361;
+    border-color: #c37d28;
+}
+
+.btn-feeling-energy {
+    border-color: #f9dc45;
+    background-color: #ffea73;
+}
+
+.btn-feeling-aggro {
+    border-color: #FF5855;
+    background-color: #F06060;
+}
+
+.btn-feeling-low {
+    border-color: #3271A0;
+    background-color: #5a9ccc;
+}
+
+
+/* ------------------------------------------------------------- MUSIC ------*/
+
+#widget-container {
+    background-color: #181818;
+    border-right: 2px solid #181818;
+    border-left: 2px solid #181818;
+    border-top: 2px solid #181818;
+}
+
+#shifty,
+#shifty-layer {
+    width: 100%;
+    height: 100px;
+    overflow: hidden;
+}
+
+#shifty{
+	z-index:-20;
+}
+
+#shifty-layer{
+	z-index:-10;
+}
+
+.shifty{
+    box-shadow: inset 0 -30px 50px #272b30;
+    box-shadow: inset 0 -30px 50px #272b30;
+
+}
+
+.shifty-chill-1 {
+    background: #b1f92a;
+    background: -moz-linear-gradient(left, #b1f92a 0%, #3590ea 24%, #3590ea 56%, #49edd7 89%, #c0ffad 100%);
+    background: -webkit-linear-gradient(left, #b1f92a 0%, #3590ea 24%, #3590ea 56%, #49edd7 89%, #c0ffad 100%);
+    background: linear-gradient(to right, #b1f92a 0%, #3590ea 24%, #3590ea 56%, #49edd7 89%, #c0ffad 100%);
+}
+
+.shifty-chill-2 {
+    background: #3590ea;
+    background: -moz-linear-gradient(left, #3590ea 0%, #3630d3 22%, #380589 33%, #3630d3 63%, #a55ef2 85%);
+    background: -webkit-linear-gradient(left, #3590ea 0%, #3630d3 22%, #380589 33%, #3630d3 63%, #a55ef2 85%);
+    background: linear-gradient(to right, #3590ea 0%, #3630d3 22%, #380589 33%, #3630d3 63%, #a55ef2 85%);
+}
+
+
+/* ------------------------------------------------------------------- EVENTS -----*/
+
+#event-div {}
+
+.event-artist {
+    font-weight: bold;
+    color: #f9d44b;
+    margin-right: 114px;
+}
+
+.event-venue {}
+
+.event-date {}
+
+#btn-auth {
+    background: #34393d url(../images/spotify.png) 8px 5px / 40px 40px no-repeat;
+    padding-left: 55px;
+    border-color: #218344;
+    border-width: 2px;
+}
+
+.btn-close,
+.btn-save {
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    line-height: 44px;
+    font-size: 25px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.btn-close {
+    background-color: #2f7a8a;
+    box-shadow: 0px 0px 3px 1px #0c0d0e;
+    text-shadow: 0px 1px 0px #5baebf;
+    color: #1c1e22;
+}
+
+.btn-save {
+    background-color: #7d703f;
+    box-shadow: 0px 0px 3px 1px #0c0d0e;
+    text-shadow: 0px 1px 0px #cebc3c;
+    margin-right: 20px;
+    color: #1c1e22;
+    transition: 0.5s ease-in-out;
+}
+
+.btn-save i {
+    margin-left: 2px;
+}
+
+.btn-saved {
+    background-color: transparent;
+    color: #ffd84a;
+    text-shadow: 0px 0px 4px #d6a929;
+    box-shadow:none;
+	transform: rotate(360deg);
+}
+
+
 /* ------------------------------------------------------------------ MODAL ----- */
-/*-------------------------------------------------------------------------------- */
 
 .modal {
     position: fixed;
@@ -46,138 +277,4 @@
     cursor: pointer;
     color: #000;
     font-size: 24px;
-}
-
-
-/* --------------------------------------------------------------------------- */
-
-.collapse {
-    height: 1px;
-}
-
-.expand {
-    height: auto
-}
-
-.navbar-default .navbar-brand {
-    font-size: 30px;
-    line-height: 35px;
-    font-weight: bold;
-    padding: 10px 15px;
-    color: #57c3f9;
-    text-shadow: 0px 2px 5px #107796;
-}
-
-.navbar-default .navbar-brand:hover {
-    color: #57c3f9;
-    cursor: default;
-}
-
-h3 {
-    border-bottom: 1px solid #445055;
-    padding-bottom: 10px;
-    margin-bottom: 18px;
-}
-
-#btn-current-feeling {
-    width: auto;
-    height: 40px;
-    display: inline-block;
-    line-height: 35px;
-    padding: 0 10px;
-    float: right;
-    margin: 13px 0 0 0;
-}
-
-.btn-feeling {
-    border-radius: 4px;
-    border-style: solid;
-    border-width: 2px;
-    color: #333;
-    width: 130px;
-    height: 130px;
-    margin: 10px;
-    font-size: 14px;
-    font-weight: bold;
-}
-
-.btn-feeling-doing {
-    border-color: #80CC7A;
-    background-color: #69b364;
-    text-shadow: 1px -1px 1px #80CC7A;
-}
-
-.btn-feeling-positive {
-    background-color: #F2B361;
-    border-color: #c37d28;
-}
-
-.btn-feeling-energy {
-    border-color: #f9dc45;
-    background-color: #ffea73;
-}
-
-.btn-feeling-aggro {
-    border-color: #FF5855;
-    background-color: #F06060;
-}
-
-.btn-feeling-low {
-    border-color: #3271A0;
-    background-color: #5a9ccc;
-}
-
-#widget-container {
-    background-color: #181818;
-    border-right: 2px solid #181818;
-    border-left: 2px solid #181818;
-    border-top: 2px solid #181818;
-}
-
-#event-div {}
-
-.event-artist {
-    font-weight: bold;
-    color: #d0b75b;
-}
-
-.event-venue {}
-
-.event-date {}
-
-.btn-close,
-.btn-save {
-    width: 40px;
-    height: 40px;
-    text-align: center;
-    line-height: 44px;
-    font-size: 25px;
-    border-radius: 50%;
-    cursor: pointer;
-}
-
-.btn-close {
-    background-color: #2f7a8a;
-    box-shadow: 0px 0px 3px 1px #0c0d0e;
-    text-shadow: 0px 1px 0px #5baebf;
-    color: #1c1e22;
-}
-
-.btn-save {
-    background-color: #dca40e;
-    box-shadow: 0px 0px 3px 1px #0c0d0e;
-    text-shadow: 0px 1px 0px #ffe425;
-    margin-right: 20px;
-    color: #1c1e22;
-    transition: 0.5s ease-in-out;
-}
-
-.btn-saved {
-	background-color: transparent;
-	color: #dca40e;
-	text-shadow: 0px 0px 4px #9c7609;
-}
-
-.btn-save i {
-    margin-left: 2px;
 }

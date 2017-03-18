@@ -12,19 +12,20 @@
 </head>
 
 <body>
-    <!-- Header, always shows -->
-    <nav class="navbar navbar-default">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <!-- button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+    <div id="main-container">
+        <!-- Header, always shows -->
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <!-- button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
                     <span class="sr-only">Toggle navigation</span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button -->
-                <a class="navbar-brand" href="#">MoodMash</a>
-            </div>
-            <!-- div class="navbar-collapse collapse" id="navbar-menu">
+                    <a class="navbar-brand" href="#">MoodMash</a>
+                </div>
+                <!-- div class="navbar-collapse collapse" id="navbar-menu">
                 <ul class="nav navbar-nav">
                     <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>
                     <li><a href="#">Link</a></li>
@@ -51,15 +52,20 @@
                     <li><a href="#">Link</a></li>
                 </ul>
             </div -->
+            </div>
+        </nav>
+        <div id="shifty" class="shifty">
+            <div id="shifty-layer" class="shifty">
+            </div>
         </div>
-    </nav>
-    <div id="main-container">
         <!-- First Screen -->
         <div id="app-intro" class="container-fluid">
-            <h3>Start Feelin'</h3>
-            <div class="form-group">
-                <!-- re implement node: ref="/login" -->
-                <a class="btn btn-default btn-lg" id="btn-auth" href="/login">Login with your Spotify</a>
+            <div class="well">
+                <h3>Start Feelin'</h3>
+                <div class="form-group">
+                    <!-- re implement node: ref="/login" -->
+                    <a class="btn btn-lg" id="btn-auth" href="/login">Login with Spotify</a>
+                </div>
             </div>
         </div>
         <!-- Second screen -->
@@ -75,32 +81,29 @@
             </form>
         </div>
         <!-- Main App area -->
-        <div id="app-main">
-            <div id="welcome" class="container-fluid">
+        <div id="app-main" class="container-fluid">
+            <div id="welcome" class="well">
                 <button id="btn-current-feeling"></button>
                 <h3>Today, I'm Feeling...</h3>
-            </div>
-            <div id="emotions"></div>
-            <div id="music" class="container-fluid">
+                <div id="emotions"></div>
                 <h5 id="city-mood"><span class="user-city"></span> is feeling <span id="recent-moods"></span></h5>
-                <div id="player">
-                    <h3>Feel it now</h3>
-                    <div id="widget-container"></div>
-                </div>
-                <div id="suggestions">
-                    <h3>Feel it live</h3>
-                    <div id="artist-events"></div>
-                </div>
+            </div>
+            <div id="player" class="well">
+                <h3>Feel it now</h3>
+                <div id="widget-container"></div>
+            </div>
+            <div id="suggestions" class="well">
+                <h3>Feel it live</h3>
+                <div id="artist-events"></div>
             </div>
         </div>
-        <!-- end of app-main -->
-    </div>
-    <!--Spotify login modal-->
-    <div class="modal" id="spotify-re-auth">
-        <div class="inner">
-            <h2>Whoops!</h2>
-            <p>Looks like you need to reauthorize the app</p>
-            <a class="btn btn-default btn-lg" id="btn-auth" href="index.html">Login with your Spotify</a>
+        <!--Spotify login modal-->
+        <div class="modal" id="spotify-re-auth">
+            <div class="inner">
+                <h2>Whoops!</h2>
+                <p>Looks like you need to reauthorize the app</p>
+                <a class="btn btn-default btn-lg" id="btn-auth" href="index.html">Login with your Spotify</a>
+            </div>
         </div>
     </div>
     <!-- Other stuff -->
