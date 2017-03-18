@@ -19,6 +19,13 @@ var genPlaylist = [];
 
 
 function cityLaunch(e) {
+    
+    // fake click on "productive" to mask the "events only show up on second click" issue
+    $('*[data-emo="Productive"]').click();
+
+    //hide the music stuff since user hasn't asked for a playlist yet
+    $("#page2").hide();
+
     e.preventDefault();
 
     //set the user city
@@ -119,9 +126,7 @@ function grabArtist(url) {
 function searchShows(arr) {
     console.log("searchShows has been called");
     console.log("What's the array in searchShows? -->");
-    //console.log(arr);
-    $('#artist-events').append('<h3>Upcoming Shows in ' + userCity + '</h3>');
-    //console.log("searchShows i is: " + arr[i]);
+    $('#artist-events').html('<h3>Upcoming Shows in ' + userCity + '</h3>');
 
     //looping over thinned out artist array
     for (i = 0; i < arr.length; i++) {
@@ -164,8 +169,9 @@ $('#add-city').on('click', cityLaunch);
 $('#emotions').on('click', '.btn-warning', genPlaylists);
 
 $(".btn-warning").on("click", function() {
+    $("#page2").show();
     $("#artist-events").empty();
-    $("#playlist-items").empty();
+
     artists = [];
     topic = $(this).attr("data-emo");
     var listArr = [];
@@ -176,7 +182,7 @@ $(".btn-warning").on("click", function() {
     $("#moodDiv").append(this.getAttribute("data-emo"));
     $("#playlist-items").empty();
 
-    //TH NOTE- BEGINNNIG of Firebase stuff========================================================
+    //TH NOTE- BEGINNNIG of Firebase stuff ===============
     var moodRef = firebase.database();
     var mood = this.getAttribute("data-emo");
 
@@ -190,7 +196,7 @@ $(".btn-warning").on("click", function() {
         var cityMood = (snapshot.val().userMood + " | "); // TH note--all that empty space is to put space between words. I'm sure there's a more elgant way but going for quick and dirty
         $("#recent-moods").html(cityMood);
     });
-    //TH NOTE --end of firebase stuff============
+    //TH NOTE --end of firebase stuff ====================
 
 });
 
