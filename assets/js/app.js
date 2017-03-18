@@ -188,7 +188,7 @@ $(".btn-warning").on("click", function() {
     moodRef.ref().orderByChild('city').equalTo(userCity).limitToLast(3).on('child_added', function(snapshot) {
         var currentCity = snapshot.val().city;
         var cityMood = (snapshot.val().userMood + " | "); // TH note--all that empty space is to put space between words. I'm sure there's a more elgant way but going for quick and dirty
-        $("#recent-moods").append(cityMood);
+        $("#recent-moods").html(cityMood);
     });
     //TH NOTE --end of firebase stuff============
 

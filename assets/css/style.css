@@ -124,7 +124,7 @@ border:8px solid plum;
         /* position: absolute; */
         /* left: 440px; */
         /* top: 15px; */
-        font-family: 'Clicker Script', cursive;
+        /*font-family: 'Clicker Script', cursive;*/
         font-size: 27px;
     }
 
@@ -224,8 +224,17 @@ border:8px solid plum;
         /* position: relative; */
         /* top: 752px; */
         /* left: 110px; */
-        font-family: 'Clicker Script', cursive;
+        /*font-family: 'Clicker Script', cursive;*/
         font-size: 23px;
+    }
+
+    .event-div {
+    padding:15px;
+    border-bottom:1px solid #333;
+    }
+
+    #artist-events > .event-div:last-child {
+        border-bottom:0;
     }
 
     .btn {
@@ -309,3 +318,7 @@ border:8px solid plum;
     .z {
         background-color: MidnightBlue;
     }
+
+#city-mood {
+    padding:20px;
+}
