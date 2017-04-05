@@ -7,11 +7,12 @@ var cookieParser = require('cookie-parser');
 var client_id = 'e47bbc49931e47c9b58e0418a2d7f472';
 var client_secret = '3e6111715f0a44eb871a290db9f148bf';
 //local testing
-var redirect_uri = 'http://localhost:9000/callback';
+var redirect_uri = 'https://moodmash.herokuapp.com/callback';
 //heroku deployment
 //var redirect_uri = 'https://moodmash.herokuapp.com/callback';
 var user_id = '';
 
+var PORT = process.env.PORT || 9000;
 var app = express();
 
 app.use(express.static(__dirname));
@@ -95,4 +96,9 @@ app.get('/callback', function(req, res) {
 });
 
 console.log('Spotify App running on port: 9000');
-app.listen(9000);
+
+
+// Connection to PORT
+app.listen(PORT, function() {
+  console.log(`Listening On Port: ${PORT}`);
+});

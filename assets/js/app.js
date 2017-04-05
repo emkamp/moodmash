@@ -112,10 +112,10 @@ function genPlaylists(e) {
         var min = 1;
         var num = parseInt(Math.random() * (max - min) + min);
         genPlaylist = results[num];
-        //console.log("genPlaylist -->")
-        //console.log(genPlaylist);
+        console.log("genPlaylist -->")
+        console.log(genPlaylist);
         var href = genPlaylist.href;
-        //console.log("genPlaylist.href = " + href);
+        console.log("genPlaylist.href = " + href);
         var uri = genPlaylist.uri;
         //console.log("uri = " + uri);
         grabArtist(href);
@@ -211,12 +211,7 @@ function searchShows(arr) {
                         'venue': venue,
                     }
 
-                    //console.log("eventArr  = = = = = = >");
-                    //console.log(eventArr);
-
-                    //localEvents.push(eventArr);
-                    //console.log("localEvents = = = = = >");
-                    //console.log(localEvents);
+                    localEvents.push(eventArr);
 
                     if (localEvents.length > -1) {
                         $("#suggestions").show();
@@ -225,6 +220,12 @@ function searchShows(arr) {
                         $('#artist-events').append(artistDiv);
                     } else {}
                 } else {}
+
+
+                console.log("eventArr  = = = = = = >");
+                console.log(eventArr);
+                console.log("localEvents = = = = = >");
+                console.log(localEvents);
             }
 
             // ------------------------------------------------------- Events Events ---
@@ -248,11 +249,9 @@ function searchShows(arr) {
     }
 }
 
-
 function noEvents() {
     $("#suggestions").fadeOut();
 }
-
 
 
 // ------------------------------------------------------------------ EVENTS -----
@@ -263,7 +262,6 @@ $("#app-main").hide();
 $("#player").hide();
 $("#suggestions").hide();
 $("#city-mood").hide();
-
 $("#btn-current-feeling").hide();
 
 renderButtons();
@@ -321,6 +319,7 @@ $("#btn-current-feeling").on('click', function() {
     $("#recent-moods").hide();
     $("#emotions").show();
     $("#artist-events").empty();
+    $("#city-mood").hide();
 });
 
 
