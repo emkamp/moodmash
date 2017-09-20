@@ -4,8 +4,8 @@ var querystring = require('querystring');
 var cookieParser = require('cookie-parser');
 
 //spotify app ID
-var client_id = 'e47bbc49931e47c9b58e0418a2d7f472';
-var client_secret = '3e6111715f0a44eb871a290db9f148bf';
+var client_id = 'c187f3ea3d0047018c945aeaae3ae873';
+var client_secret = 'a27b6240eade4f258ab66b6fa5c4be0f';
 //local testing
 var redirect_uri = 'https://moodmash-empulse.herokuapp.com/callback';
 //heroku deployment
