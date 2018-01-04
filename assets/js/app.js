@@ -285,10 +285,13 @@ $(".btn-feeling").on("click", function() {
     //to change aurora background 
     console.log("currentFeelingStyle: ");
     console.log(currentFeelingStyle);
-    var shiftClass1 = currentFeelingStyle[1] + "-1";
-    var shiftClass2 = currentFeelingStyle[1] + "-2";
+    var shiftClasses = currentFeelingStyle.split(" ");
+    var shiftClass1 = shiftClasses[1] + "-1";
+    var shiftClass2 = shiftClasses[1] + "-2";
+    console.log("shiftClass1 = " + shiftClass1 + "  //  shiftClass2 = " + shiftClass2);
 
     shift(shiftClass1, shiftClass2);
+    // end background change
 
     artists = [];
     topic = $(this).attr("data-emo");
