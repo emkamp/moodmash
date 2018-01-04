@@ -95,8 +95,7 @@ function genPlaylists(e) {
     e.preventDefault();
     //JN: topic should be OK to be locally scoped
     var topic = $(this).attr("data-emo");
-    //console.log("genPlaylists: topic = " + topic);
-    var limit = 5 //Set Max results -> Could be an option FEATURE
+    var limit = 10 //Set Max results -> Could be an option FEATURE
     var queryUrl = "https://api.spotify.com/v1/search?q=" + topic + "&type=playlist&limit=" + limit;
     $.ajax({
         context: this,
@@ -107,16 +106,13 @@ function genPlaylists(e) {
         results = response.playlists.items;
         //console.log("genPlaylists results -->");
         //console.log(results);
+        console.log ("Playlist result: " + results.name + " by " + results.owner.display_name);
         var max = 5;
         var min = 1;
         var num = parseInt(Math.random() * (max - min) + min);
         genPlaylist = results[num];
-        console.log("genPlaylist -->")
-        console.log(genPlaylist);
         var href = genPlaylist.href;
-        console.log("genPlaylist.href = " + href);
         var uri = genPlaylist.uri;
-        //console.log("uri = " + uri);
         grabArtist(href);
         launchPlayer(uri, href);
     }); // end of done function response
@@ -144,15 +140,13 @@ function reupSpotify() {
 }
 
 function grabArtist(url) {
-    console.log("grabArtist(url): " + url);
+    //console.log("grabArtist(url): " + url);
     $.ajax({
         context: this,
         url: url,
         headers: { "Authorization": "Bearer " + access_token },
         method: "GET"
     }).done(function(response) {
-        console.log("grabArtist ajax call -->");
-        console.log(response);
         for (i = 0; i < response.tracks.items.length; i++) {
             var artist = response.tracks.items[i].track.artists[0].name;
             artists.push(artist);
