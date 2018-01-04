@@ -312,6 +312,7 @@ $(".btn-feeling").on("click", function() {
 
 $("#btn-current-feeling").on('click', function() {
     //thinArr = [];
+    localEvents = [];
     $(this).hide();
     $("#player").hide();
     $("#suggestions").hide();
