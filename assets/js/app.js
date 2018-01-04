@@ -92,6 +92,7 @@ function renderButtons() {
 };
 
 function genPlaylists(e) {
+    console.log("genPlaylist has been called");
     e.preventDefault();
     //JN: topic should be OK to be locally scoped
     var topic = $(this).attr("data-emo");
@@ -104,9 +105,9 @@ function genPlaylists(e) {
         method: "GET"
     }).done(function(response) {
         results = response.playlists.items;
-        //console.log("genPlaylists results -->");
-        //console.log(results);
-        console.log ("Playlist result: " + results.name + " by " + results.owner.display_name);
+        console.log("genPlaylists results -->");
+        console.log(results);
+        //console.log ("Playlist result: " + results.name + " by " + results.owner.display_name);
         var max = 5;
         var min = 1;
         var num = parseInt(Math.random() * (max - min) + min);
@@ -119,6 +120,7 @@ function genPlaylists(e) {
 }
 
 function launchPlayer(uri, href) {
+    console.log("launchPlayer has been called");
     var widget = $("<iframe>");
     var playlistUrl = href;
     var playlistUri = uri;
@@ -141,6 +143,7 @@ function reupSpotify() {
 
 function grabArtist(url) {
     //console.log("grabArtist(url): " + url);
+    console.log("grabArtist has been called");
     $.ajax({
         context: this,
         url: url,
@@ -267,7 +270,6 @@ $(".btn-feeling").on("click", function() {
     $("#player").show();
     $("#city-mood").show();
     $("#emotions").hide();
-
     $("#artist-events").empty();
 
     var currentFeeling = $(this).attr("data-emo");
@@ -277,13 +279,10 @@ $(".btn-feeling").on("click", function() {
     $("#btn-current-feeling").show();
 
     //to change aurora background 
-    console.log("currentFeelingStyle: ");
-    console.log(currentFeelingStyle);
     var shiftClasses = currentFeelingStyle.split(" ");
     var shiftClassesSplit = shiftClasses[1].split("-");
     var shiftClass1 = "shifty-" + shiftClassesSplit[2] + "-1";
     var shiftClass2 = "shifty-" + shiftClassesSplit[2] + "-2";
-    console.log("shiftClass1 = " + shiftClass1 + "  //  shiftClass2 = " + shiftClass2);
 
     shift(shiftClass1, shiftClass2);
     // end background change
