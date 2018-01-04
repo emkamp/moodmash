@@ -38,8 +38,8 @@ var genPlaylist = [];
 
 
 function shift(class1, class2) {
-    $("#shifty").attr("class", "shifty " + class1);
-    $("#shifty-layer").attr("class", "shifty " + class2);
+    $("#shifty").attr("class", function(){return val = "shifty " + class1;});
+    $("#shifty-layer").attr("class", function(){return val = "shifty " + class2;});
 
     window.setInterval(function() {
         $("#shifty-layer").fadeOut(3000).fadeIn(3000);
