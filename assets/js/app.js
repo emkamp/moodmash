@@ -37,20 +37,19 @@ var genPlaylist = [];
 // ------------------------------------------------------------------------------
 
 
-function shift() {
-    $("#shifty").addClass("shifty-chill-1");
-    $("#shifty-layer").addClass("shifty-chill-2");
+function shift(class1, class2) {
+    $("#shifty").addClass(class1);
+    $("#shifty-layer").addClass(class2);
 
     window.setInterval(function() {
         $("#shifty-layer").fadeOut(3000).fadeIn(3000);
     }, 500);
 }
 
-shift();
+shift("shifty-chill-1", "shifty-chill-2");
 
 // ------------------------------------------------------------ FUNCTIONS ------
 //------------------------------------------------------------------------------
-
 
 
 function cityLaunch(e) {
@@ -145,15 +144,15 @@ function reupSpotify() {
 }
 
 function grabArtist(url) {
-    //console.log("grabArtist(url): " + url);
+    console.log("grabArtist(url): " + url);
     $.ajax({
         context: this,
         url: url,
         headers: { "Authorization": "Bearer " + access_token },
         method: "GET"
     }).done(function(response) {
-        //console.log("grabArtist ajax call -->");
-        //console.log(response);
+        console.log("grabArtist ajax call -->");
+        console.log(response);
         for (i = 0; i < response.tracks.items.length; i++) {
             var artist = response.tracks.items[i].track.artists[0].name;
             artists.push(artist);
@@ -168,17 +167,17 @@ function grabArtist(url) {
         reupSpotify();
     });
 
-    //console.log("thinArr from grabArtist(): -->");
-    //console.log(thinArr);
+    console.log("thinArr from grabArtist(): -->");
+    console.log(thinArr);
 
     searchShows(thinArr);
 }
 
 function searchShows(arr) {
-    //console.log("searchShows has been called");
-    //console.log("What's the array in searchShows? -->");
-    //console.log(arr);
-    //console.log(" - - - - - - - - - - - - - - - - - -");
+    console.log("searchShows has been called");
+    console.log("What's the array in searchShows? -->");
+    console.log(arr);
+    console.log(" - - - - - - - - - - - - - - - - - -");
     $('#artist-events').append('<h4>Upcoming Shows in ' + userCity + '</h4>');
 
     var localEvents = []
@@ -192,9 +191,9 @@ function searchShows(arr) {
             method: "GET"
         }).done(function(response) {
             eventListings = response;
-            //console.log("EVENT LISTINGS: EVERY SHOW FOR THESE ARTISTS - - - - - - - - - - - - - - - - - - - -");
-            //console.log("eventListings.length = " + eventListings.length);
-            //console.log(eventListings);
+            console.log("EVENT LISTINGS: EVERY SHOW FOR THESE ARTISTS - - - - - - - - - - - - - - - - - - - -");
+            console.log("eventListings.length = " + eventListings.length);
+            console.log(eventListings);
 
             for (i = 0; i < eventListings.length; i++) {
 
@@ -292,7 +291,7 @@ $(".btn-feeling").on("click", function() {
     $("#moodDiv").append(this.getAttribute("data-emo"));
     $("#playlist-items").empty();
 
-    //TH NOTE- BEGINNNIG of Firebase stuff
+    //TH NOTE- BEGINNING of Firebase stuff
     var moodRef = firebase.database();
     var mood = this.getAttribute("data-emo");
 

@@ -9,7 +9,7 @@ var client_secret = 'a27b6240eade4f258ab66b6fa5c4be0f';
 //local testing
 var redirect_uri = 'https://moodmash-empulse.herokuapp.com/callback';
 //heroku deployment
-//var redirect_uri = 'https://moodmash.herokuapp.com/callback';
+//var redirect_uri = 'https://moodmash-empulse.herokuapp.com/callback';
 var user_id = '';
 
 var PORT = process.env.PORT || 9000;
