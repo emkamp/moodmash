@@ -95,7 +95,7 @@ function genPlaylists(e) {
     e.preventDefault();
     //JN: topic should be OK to be locally scoped
     var topic = $(this).attr("data-emo");
-    var limit = 10 //Set Max results -> Could be an option FEATURE
+    var limit = 5 //Set Max results -> Could be an option FEATURE
     var queryUrl = "https://api.spotify.com/v1/search?q=" + topic + "&type=playlist&limit=" + limit;
     $.ajax({
         context: this,
