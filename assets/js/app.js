@@ -284,7 +284,7 @@ $(".btn-feeling").on("click", function() {
 
     //to change aurora background 
     console.log("currentFeelingStyle: ");
-    console.log currentFeelingStyle;
+    console.log(currentFeelingStyle);
     var shiftClass1 = currentFeelingStyle[1] + "-1";
     var shiftClass2 = currentFeelingStyle[1] + "-2";
 
