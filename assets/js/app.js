@@ -323,7 +323,7 @@ $(".btn-feeling").on("click", function() {
 // ------------------------------------------------ Select a new feeling ---
 
 $("#btn-current-feeling").on('click', function() {
-    //thinArr = [];
+    thinArr = [];
     localEvents = [];
     $(this).hide();
     $("#player").hide();
