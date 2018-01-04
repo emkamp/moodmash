@@ -76,6 +76,11 @@ h3 {
 
 /* ------------------------------------------------------------------ FEELINGS ----*/
 
+#emotions {
+    width: 308px;
+    margin: 0 auto;
+}
+
 #btn-current-feeling {
     width: auto;
     height: 40px;
