@@ -38,15 +38,15 @@ var genPlaylist = [];
 
 
 function shift(class1, class2) {
-    $("#shifty").addClass(class1);
-    $("#shifty-layer").addClass(class2);
+    $("#shifty").attr("class", "shifty " + class1);
+    $("#shifty-layer").attr("class", "shifty " + class2);
 
     window.setInterval(function() {
         $("#shifty-layer").fadeOut(3000).fadeIn(3000);
     }, 500);
 }
 
-shift("shifty-chill-1", "shifty-chill-2");
+shift("shifty-neutral-1", "shifty-neutral-2");
 
 // ------------------------------------------------------------ FUNCTIONS ------
 //------------------------------------------------------------------------------
