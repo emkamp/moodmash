@@ -155,19 +155,78 @@ h3 {
 
 }
 
-.shifty-chill-1 {
-    background: #b1f92a;
-    background: -moz-linear-gradient(left, #b1f92a 0%, #3590ea 24%, #3590ea 56%, #49edd7 89%, #c0ffad 100%);
-    background: -webkit-linear-gradient(left, #b1f92a 0%, #3590ea 24%, #3590ea 56%, #49edd7 89%, #c0ffad 100%);
-    background: linear-gradient(to right, #b1f92a 0%, #3590ea 24%, #3590ea 56%, #49edd7 89%, #c0ffad 100%);
-}
-
-.shifty-chill-2 {
+.shifty-neutral-1 {
+    background: #585b37;
+    background: -moz-linear-gradient(left, #585b37 0%, #bfbfbf 27%, #f9f4de 72%, #99978f 98%);
+    background: -webkit-linear-gradient(left, #585b37 0%, #bfbfbf 27%, #f9f4de 72%, #99978f 98%);
+    background: linear-gradient(to right, #585b37 0%, #bfbfbf 27%, #f9f4de 72%, #99978f 98%);
+  }
+  .shifty-neutral-2 {
+    background: #cedce7;
+    background: -moz-linear-gradient(left, #cedce7 0%, #6e896c 27%, #cedce7 76%, #b4ed93 100%);
+    background: -webkit-linear-gradient(left, #cedce7 0%, #6e896c 27%, #cedce7 76%, #b4ed93 100%);
+    background: linear-gradient(to right, #cedce7 0%, #6e896c 27%, #cedce7 76%, #b4ed93 100%);
+  }
+  .shifty-low-1 {
+    background: #383972;
+    background: -moz-linear-gradient(left, #383972 0%, #41544b 29%, #353535 54%, #3b488e 87%, #303b72 100%);
+    background: -webkit-linear-gradient(left, #383972 0%, #41544b 29%, #353535 54%, #3b488e 87%, #303b72 100%);
+    background: linear-gradient(to right, #383972 0%, #41544b 29%, #353535 54%, #3b488e 87%, #303b72 100%);
+  }
+  .shifty-low-2 {
     background: #3590ea;
     background: -moz-linear-gradient(left, #3590ea 0%, #3630d3 22%, #380589 33%, #3630d3 63%, #a55ef2 85%);
     background: -webkit-linear-gradient(left, #3590ea 0%, #3630d3 22%, #380589 33%, #3630d3 63%, #a55ef2 85%);
     background: linear-gradient(to right, #3590ea 0%, #3630d3 22%, #380589 33%, #3630d3 63%, #a55ef2 85%);
-}
+  }
+  .shifty-doing-1 {
+    background: #b1f92a;
+    background: -moz-linear-gradient(left, #b1f92a 0%, #3590ea 24%, #3590ea 56%, #49edd7 89%, #c0ffad 100%);
+    background: -webkit-linear-gradient(left, #b1f92a 0%, #3590ea 24%, #3590ea 56%, #49edd7 89%, #c0ffad 100%);
+    background: linear-gradient(to right, #b1f92a 0%, #3590ea 24%, #3590ea 56%, #49edd7 89%, #c0ffad 100%);
+  }
+  .shifty-doing-2 {
+    background: #519dff;
+    background: -moz-linear-gradient(left, #519dff 11%, #005dff 29%, #00eb00 59%, #00d2da 73%, #0017fd 100%);
+    background: -webkit-linear-gradient(left, #519dff 11%, #005dff 29%, #00eb00 59%, #00d2da 73%, #0017fd 100%);
+    background: linear-gradient(to right, #519dff 11%, #005dff 29%, #00eb00 59%, #00d2da 73%, #0017fd 100%);
+  }
+  .shifty-positive-1 {
+    background: #a6df2d;
+    background: -moz-linear-gradient(left, #a6df2d 0%, #90fe1d 14%, #90fe1d 38%, #fffe65 69%, #90fe1d 82%, #90facd 100%);
+    background: -webkit-linear-gradient(left, #a6df2d 0%, #90fe1d 14%, #90fe1d 38%, #fffe65 69%, #90fe1d 82%, #90facd 100%);
+    background: linear-gradient(to right, #a6df2d 0%, #90fe1d 14%, #90fe1d 38%, #fffe65 69%, #90fe1d 82%, #90facd 100%);
+  }
+  .shifty-positive-2 {
+    background: #f8ffe8;
+    background: -moz-linear-gradient(left, #f8ffe8 0%, #e3f5ab 14%, #a6df2d 53%, #d4fe1d 84%);
+    background: -webkit-linear-gradient(left, #f8ffe8 0%, #e3f5ab 14%, #a6df2d 53%, #d4fe1d 84%);
+    background: linear-gradient(to right, #f8ffe8 0%, #e3f5ab 14%, #a6df2d 53%, #d4fe1d 84%);
+  }
+  .shifty-energy-1 {
+    background: #ffdc00;
+    background: -moz-linear-gradient(left, #ffdc00 0%, #ffff9a 25%, #ffe100 55%, #ff7f00 81%, #ffff1e 100%);
+    background: -webkit-linear-gradient(left, #ffdc00 0%, #ffff9a 25%, #ffe100 55%, #ff7f00 81%, #ffff1e 100%);
+    background: linear-gradient(to right, #ffdc00 0%, #ffff9a 25%, #ffe100 55%, #ff7f00 81%, #ffff1e 100%);
+  }
+  .shifty-energy-2 {
+    background: #ffe100;
+    background: -moz-linear-gradient(left, #ffe100 0%, #fff875 10%, #ff7f00 37%, #ffff1e 45%, #ffe100 74%);
+    background: -webkit-linear-gradient(left, #ffe100 0%, #fff875 10%, #ff7f00 37%, #ffff1e 45%, #ffe100 74%);
+    background: linear-gradient(to right, #ffe100 0%, #fff875 10%, #ff7f00 37%, #ffff1e 45%, #ffe100 74%);
+  }
+  .shifty-aggro-1 {
+    background: #c90021;
+    background: -moz-linear-gradient(left, #c90021 0%, #d87700 20%, #f2bd00 53%, #d87700 68%, #661741 84%, #c90021 100%);
+    background: -webkit-linear-gradient(left, #c90021 0%, #d87700 20%, #f2bd00 53%, #d87700 68%, #661741 84%, #c90021 100%);
+    background: linear-gradient(to right, #c90021 0%, #d87700 20%, #f2bd00 53%, #d87700 68%, #661741 84%, #c90021 100%);
+  }
+  .shifty-aggro-2 {
+    background: #f24507;
+    background: -moz-linear-gradient(left, #f24507 0%, #562212 19%, #f93a00 41%, #ffef7a 69%, #fb955e 80%, #ea5507 100%);
+    background: -webkit-linear-gradient(left, #f24507 0%, #562212 19%, #f93a00 41%, #ffef7a 69%, #fb955e 80%, #ea5507 100%);
+    background: linear-gradient(to right, #f24507 0%, #562212 19%, #f93a00 41%, #ffef7a 69%, #fb955e 80%, #ea5507 100%);
+  }
 
 
 /* ------------------------------------------------------------------- EVENTS -----*/
